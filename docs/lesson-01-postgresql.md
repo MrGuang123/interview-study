@@ -1,8 +1,8 @@
 # 手写学习 01：PostgreSQL 开发环境
 
-日期：2026-10-22。对应 [阶段 2](stage-2-first-slice.md) 的 2.5，可与首批页面细化并行。状态：**教学说明已提供；实际 Compose、环境文件和运行结果等待用户亲手完成**。本文的代码块不是已经写入应用的实现。
+日期：2026-10-22。对应 [阶段 2](stage-2-first-slice.md) 的 2.5，可与首批页面细化并行。状态：**用户已手写配置，并确认 SQL 读写及容器重建后数据保留正常，本课完成**。实际使用镜像为 `postgres:18.6-alpine`，与下方标准变体示例任选其一；现有配置见 [compose.dev.yaml](../infra/compose/compose.dev.yaml)。
 
-示例已在临时目录用非敏感测试值通过 `docker compose config --quiet` 校验；未下载镜像、启动服务或执行 SQL，运行与持久化效果仍需用户按下文验证。
+示例最初在临时目录用非敏感测试值通过 `docker compose config --quiet` 校验；之后代理只读核实容器 running/healthy。SQL 与重建持久化验证由用户执行并反馈通过，代理没有代为执行 SQL 或重建容器；备份恢复与应用集成尚未验收。
 
 目标：自己写出数据库配置，启动一个 PostgreSQL，执行 SQL，并证明容器重建后数据仍在。暂不接 Prisma、登录或其他数据库。
 

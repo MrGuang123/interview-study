@@ -23,7 +23,9 @@
 - 五个应用已迁入 `apps/`，统一安装依赖：`web`、`core-api`、`studio-service`、`report-worker`、`ai-service`。
 - 五个应用仍是默认 Next/Nest 脚手架。共享包和维护脚本主要只有职责 README；基础设施已增加 PostgreSQL 开发 Compose 配置。
 - 2026-10-21 开发电脑已通过五个应用的 lint、类型检查和生产构建；四个 Nest 应用合计 4 个默认单元测试、4 个默认 E2E 通过。Web 尚无测试脚本，浏览器交互未验证；2026-10-22 未重跑这些应用检查。
-- 用户已手写 PostgreSQL Compose、环境示例与本地配置。2026-10-22 只读核实 `desktop-linux` context 中的 `interview-forge-dev` 项目：`postgres` 服务使用 `postgres:18.6-alpine`，running/healthy，仅映射 `127.0.0.1:5432`，挂载一个命名卷。SQL 连接、写入及容器重建后数据保留尚未验证。
+- 用户已手写 PostgreSQL Compose、环境示例与本地配置。2026-10-22 代理只读核实 `desktop-linux` context 中的 `interview-forge-dev` 项目：`postgres` 服务使用 `postgres:18.6-alpine`，running/healthy，仅映射 `127.0.0.1:5432`，挂载一个命名卷。
+- 同日用户执行第一课 SQL 读写及容器 `down`/`up` 后数据保留验证，反馈“一切正常”；第一课按用户确认完成。代理未自动执行 SQL 或重建容器，未验证备份恢复。
+- 下一课为数据库角色与权限；`forge_migrator`、`forge_app`、`core` schema、密码登录与结构权限尚未执行或验收，本轮未安装 Prisma。
 - 未实现登录、权限、Prisma/数据库业务集成、跨服务通信、实际 AI、多端同步或业务功能。Nginx、CI、备份恢复和完整观测也未配置运行。
 - `.scaffold/` 是已完成迁移的临时生成目录，已忽略，不参与 workspace 或运行；不需要复制到另一台电脑。
 
@@ -58,7 +60,7 @@
 
 接手后先核对代码、当前分支和工作区改动，再按本次用户任务推进。当前推荐的开发顺序是：
 
-1. [手写学习 01：PostgreSQL](lesson-01-postgresql.md) 的 Compose 与容器启动部分已完成，下一小步由用户手写 SQL 探针，执行真实连接、写入及容器重建持久化验证。当前 healthy 仅说明就绪检查通过，不代表 SQL、应用集成或备份恢复验收已通过。
+1. [手写学习 01：PostgreSQL](lesson-01-postgresql.md) 按用户确认完成；下一小步按 [手写学习 02：数据库角色与权限](lesson-02-database-roles.md) 创建 `forge_migrator`、`forge_app` 与 `core` schema，验证真实密码登录和结构权限。第一课容器 healthy 是代理只读核对，SQL 与重建保留由用户执行并确认，不代表应用集成或备份恢复已验收。
 2. 按已接受的 [UI v0](ui-and-interaction.md) 逐步细化四页与异常交互，后续每课给出实际代码和解释，分步接 Prisma、身份权限和页面联调；首次浏览器脚手架手动检查仍待执行。
 3. 随业务补测试和部署，再启用其他服务；不要求先设计全站全部高保真页面。
 

@@ -10,7 +10,7 @@
 - 运行配置、维护脚本、跨应用验证与运行手册的目录说明。
 - 产品/学习设计、架构决定、目标代码结构与逐步搭建指南。
 - 阶段 2 实施建议和 UI/交互文档已建立；用户已接受当前预览为 UI v0，共同样式基线已记录。正式四页线框、完整视觉稿/原型与设计令牌实现尚未完成，预览仍为模拟数据。
-- 已提供 PostgreSQL 手写学习第一课；用户已亲手创建 Compose、环境示例与本地配置，PostgreSQL 容器已启动且健康。SQL 连接、写入与容器重建后的持久化仍待验证。
+- PostgreSQL 手写学习第一课按用户反馈完成：用户已亲手创建 Compose、环境示例与本地配置，并确认 SQL 读写及 `down`/`up` 后数据保留正常。代理前次只读核对容器为 healthy；SQL 与重建验证由用户执行。
 - 换电脑/新会话的交接入口与新电脑开发手册；尚未在第二台电脑执行安装和验证。
 
 五个官方脚手架已迁入正式 `apps/` 并统一安装依赖。**五个应用的 lint、类型检查与生产构建通过，四个 Nest 应用默认单元测试和 E2E 通过；业务与浏览器交互尚未验证。**
@@ -25,7 +25,7 @@
 | report-worker | 已创建 | 已安装；构建、lint、类型、1 单测及 1 E2E 通过 | 仅验证默认 HTTP 示例 |
 | ai-service | 已创建 | 已安装；构建、lint、类型、1 单测及 1 E2E 通过 | 仅验证默认 HTTP 示例 |
 | contracts / design-tokens / simulation-core / api-client | 已创建职责文档 | 未生成可构建包 | 未开始 |
-| Compose / PostgreSQL | 已创建职责文档与开发配置 | PostgreSQL 18.6 Alpine 已启动且健康 | SQL、写入及重建持久化未验证 |
+| Compose / PostgreSQL | 已创建职责文档与开发配置 | PostgreSQL 18.6 Alpine 已启动且健康 | 用户确认 SQL 读写、重建后保留通过；应用集成未开始 |
 | Nginx / 观测 | 已创建职责文档 | 无运行配置 | 未验证 |
 | 备份 / 恢复 / CI / 跨应用测试 | 已创建职责文档 | 无执行配置 | 未验证 |
 
@@ -43,11 +43,13 @@
 - 五个应用构建、lint、类型检查通过，四后端合计 4 个单测及 4 个 E2E 通过。Web 已先执行 `next typegen`；Web 没有测试脚本，浏览器交互未验证。
 - 本次修正 Web TypeScript 版本及根锁文件、Next 的 `agentRules: false`，并在四个后端测试环境关闭 Observe；未关联监控账号。当前 SDK 会识别默认凭据占位并不发送遥测。
 - 字体联网、pnpm 全局索引和测试端口曾受执行环境限制，按实际权限重跑后最终通过，没有把环境失败计为项目测试结果。
-- 2026-10-22 只读核实 Docker context 为 `desktop-linux`，Compose 项目为 `interview-forge-dev`；`postgres` 服务使用 `postgres:18.6-alpine`，状态为 running、健康状态为 healthy，端口为 `127.0.0.1:5432 → 5432/tcp`，挂载一个命名卷。未执行 SQL、写入或容器重建持久化验证，卷不代表备份已完成。
+- 2026-10-22 代理只读核实 Docker context 为 `desktop-linux`，Compose 项目为 `interview-forge-dev`；`postgres` 服务使用 `postgres:18.6-alpine`，状态为 running、健康状态为 healthy，端口为 `127.0.0.1:5432 → 5432/tcp`，挂载一个命名卷。
+- 同日用户执行第一课的 SQL 读写与容器 `down`/`up` 后数据保留验证，并反馈“一切正常”；按用户确认记录该课完成。代理未自动执行 SQL 或重建容器；命名卷保留不等于备份恢复通过。
+- 已提供 [手写学习 02：数据库角色与权限](lesson-02-database-roles.md)，本轮尚未执行角色配置、结构权限验收或安装 Prisma。
 - 尚未接入 Prisma 或真实模型调用；登录、权限、多端同步、数据库业务集成、性能、备份恢复与 AI 评测仍是待实现目标。
 
 ## 下一步
 
-按 [手写学习 01](lesson-01-postgresql.md) 继续由用户手写 SQL 探针，验证真实连接、写入与容器重建后的数据保留，代理检查后再进入下一课。同时按已接受的 [UI v0](ui-and-interaction.md) 逐步完善首批页面与异常交互；不再把选择主题作为未完成前置。[首次检查手册](runbooks/initial-verification.md) 中浏览器脚手架手动检查仍待执行，依赖升级单独验证。
+按 [手写学习 02](lesson-02-database-roles.md) 由用户手写创建 `forge_migrator`、`forge_app` 与 `core` schema，验证真实密码登录和结构权限，再进入 Prisma 集成。同时按已接受的 [UI v0](ui-and-interaction.md) 逐步完善首批页面与异常交互；不再把选择主题作为未完成前置。[首次检查手册](runbooks/initial-verification.md) 中浏览器脚手架手动检查仍待执行，依赖升级单独验证。
 
 App、桌面、小程序的具体实现框架，以及独立网关/BFF、协同编辑实现，仍按 [架构决定](decisions/0001-foundation-boundaries.md) 保持待评估。
