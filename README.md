@@ -13,7 +13,7 @@
 1. 阅读 [AGENTS.md](AGENTS.md)，了解本项目的协作规则与架构边界。
 2. 当前已安装并完成首次自动检查，按 [首次检查手册](docs/runbooks/initial-verification.md) 复核命令及手动启动；换电脑先看 [开发交接](docs/handoff.md) 和 [新电脑开发手册](docs/runbooks/new-machine-setup.md)，无需重新生成应用。
 3. 对照 [目录详解](docs/project-structure.md) 整理生成目录，保留每个应用的 README。
-4. 首先连通 Web → core-api → PostgreSQL；其余目标服务先有明确职责，再按阶段启用。
+4. 先完成首条链路的 [用户流程、UI 与主题设计](docs/ui-and-interaction.md)，再按 [阶段 2 清单](docs/stage-2-first-slice.md) 连通 Web → core-api → PostgreSQL；独立数据库验证可并行。其余目标服务按阶段启用。
 
 ## 换电脑或新会话继续
 

@@ -8,6 +8,10 @@
 
 实际完成情况看 [docs/status.md](docs/status.md)。目录存在、脚手架能启动、功能实现、故障验证通过是不同状态。不得把设计、示例数据、占位接口或本地演示描述为已实现的生产能力。
 
+## 当前手写学习方式
+
+用户希望亲手编写项目代码和配置。默认每轮提供一个可运行小任务，包含准确文件位置、完整内容、关键解释、执行命令和验收结果；用户写完后再检查实际文件并讲解问题。不要只给目录或未解释的 TODO，也不一次代写完整系统。可以维护说明文档、核对资料与进行只读检查；练习源码/运行配置、依赖安装或会改变运行数据的操作，按用户本轮明确要求执行。用户明确要求代写或修复时可直接在相应范围推进。
+
 ## 按任务查阅文档
 
 - 新会话接手或换电脑继续开发：先读 [开发交接](docs/handoff.md) 与 [当前状态](docs/status.md)，核对代码、Git 分支和工作区；环境准备见 [新电脑开发手册](docs/runbooks/new-machine-setup.md)。旧环境的检查记录不能视为本机验证结果。
@@ -15,6 +19,7 @@
 - 创建应用、配置 workspace 或调整目录：[docs/bootstrap-guide.md](docs/bootstrap-guide.md)、[docs/project-structure.md](docs/project-structure.md)。
 - 服务、协议、多端或同步边界：[基础架构决定](docs/decisions/0001-foundation-boundaries.md)。
 - 产品范围与学习验收：[产品蓝图](docs/product-blueprint.md)、[学习矩阵](docs/learning-matrix.md)。
+- 页面、主题与交互：[UI 设计任务书](docs/ui-and-interaction.md)、[首条链路实施清单](docs/stage-2-first-slice.md)。业务页面实现前先明确用户流程、关键页面线框、视觉方向和交互状态；主题未选时保留候选，不把组件库默认外观当作已确认设计。
 - Worker、离线和 AI：[专项设计](docs/worker-offline-agent.md)。
 
 只读当前任务需要的资料。文档与代码不一致时先核实实际行为；用户已经确认但尚未落文档的决定要补充记录。未决定的方案保持为候选，不能在实现中悄悄定案。
