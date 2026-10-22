@@ -1,0 +1,76 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-22",
+  "artifactType": "static-interaction-state-concept",
+  "implementationStatus": "not-implemented",
+  "generator": "built-in image_gen",
+  "styleBase": "../prompt-base.txt",
+  "acceptedReferences": [
+    "../references/practice-editor-light.png",
+    "../references/practice-editor-dark.png"
+  ],
+  "composition": "Each board has four readable UI fragments in a 2 by 2 grid. This intentionally overrides the desktop/H5 page-board composition.",
+  "notes": [
+    "All examples use fictional design data. Images do not demonstrate working authentication, persistence or synchronization.",
+    "Colors and geometry approximate the implementation specification in ../../packages/design-tokens/src/tokens.json.",
+    "In save-and-conflict quadrant 04, the in-flight editor and snapshot-confirmed feedback illustrate sequential moments. Implementation must advance through these states and must not show contradictory saving/saved messages simultaneously."
+  ],
+  "artifacts": [
+    {
+      "file": "auth-and-data-light.png",
+      "theme": "light",
+      "width": 1536,
+      "height": 1024,
+      "inputRole": "Accepted light workspace is style reference only",
+      "references": [
+        "../references/practice-editor-light.png"
+      ],
+      "prompt": "Use case: ui-mockup. Asset: high fidelity static interaction-state design board for the Chinese interview learning platform 面试工坊 / Interview Forge. The supplied accepted workspace reference is solely a STYLE REFERENCE. Preserve its clean professional developer-tool aesthetic, thin line icons, indigo-lavender accents, restrained subtle blue/lilac ambient glow, solid reading/input panels, 14px-equivalent panel radii, 8px button radii, comfortable Simplified Chinese typography. This asset is a STATE SPECIFICATION BOARD, so override the standard desktop/H5 page-board composition: use a crisp wide landscape canvas with FOUR equally important, generously sized UI component examples in a balanced 2 by 2 grid. Every quadrant is a complete readable UI fragment, not a shrunken full-page screenshot. No mobile inset, no device hardware, no perspective, no giant slogans, no tiny illegible annotations. Small brand at top left, concise board title and 01/02/03/04 state labels. All four examples must be legible in the one board. Every quadrant bottom includes exactly \"设计稿 · 示例数据\". Never imply the sample is actually implemented.\nLIGHT ONLY. Page #f6f7fb, panels #ffffff, secondary #eef1f7, main text #1f293b, muted text #657087 on white and #5f6b82 on secondary, subtle separators #e1e6ef; input boundaries #7b879f. Primary button gradient #5263dc to #745edb with white text; selection #eceffd with #4958c9 text. Failure text #b53349 on #fff1f3, warning #926015 on #fff4dc, success #257b63 on #eaf7f0. Fine focal outlines #5263dc. Apply restrained ambient glow only near the header and board edges. Reading and editor backgrounds remain solid. Use clear labels, status icons and Chinese text together. All data fictional. No photos, 3D characters, excessive charts, foreign login providers, billing or video call features. Render clean exact Chinese text.\nBoard title (verbatim): \"身份与读取状态\". Small subtitle: \"界面状态规范 · 浅色\".\nQuadrant 01 title: \"01 读取中\". A question-library section with the heading \"题库\", visible search field placeholder \"搜索题目\", a disabled loading button and three solid grey skeleton rows. Status text \"正在读取题目…\" and small explanatory copy \"保留页面结构，避免布局跳动。\". Show a clear loading indicator, not fake success content.\nQuadrant 02 title: \"02 空列表\". A question-library empty result panel with filter chips \"JavaScript\" and \"未完成\", heading \"当前筛选暂无题目\", description \"试试其他关键词，或清除筛选。\", primary action \"清除筛选\". Small secondary note \"题库为空时：等待内容发布。\". A modest line-art search icon, plenty of breathing room.\nQuadrant 03 title: \"03 读取失败\". A pale red error banner with icon, title \"题库读取失败\", message \"网络暂时不可用，请稍后重试。\", primary button \"重新读取\". Beneath it, keep one previous question result visible, labelled \"上次读取结果 · 仅供参考\", row text \"理解闭包与作用域\". Do not claim stale results are current.\nQuadrant 04 title: \"04 会话过期\". A visible solid editor fragment labelled \"我的回答\", retaining the actual user text \"闭包可以保留对外层变量的访问。\". Over its lower half place a compact clear dialog, title \"登录已过期\", copy \"当前编辑内容暂留本页。重新登录后返回这道练习。\", primary button \"重新登录并返回\", secondary action \"继续查看本页\". Under dialog or within warning area show \"请勿刷新或关闭：仅本页暂留，不保证刷新恢复。\". A small breadcrumb or context says \"返回：理解闭包与作用域\". This is intentionally a design of page-memory preservation only, no claim of persisted local drafts or automatic saving.\nKeep all four quadrants balanced, with enough room for these exact key labels. High resolution landscape, precise application UI rather than an infographic poster.",
+      "generatedSource": "/Users/ytg/.codex/generated_images/01a16317-e61d-7582-8dd9-da11b340787b/exec-89ee376b-628e-42ed-999c-abffc22ecb64.png",
+      "sha256": "00003f83d1ff6f3935bdbac7a144ab3b96eedc7dc9338724297d7fc5ec8bfac7",
+      "inspected": true
+    },
+    {
+      "file": "auth-and-data-dark.png",
+      "theme": "dark",
+      "width": 1536,
+      "height": 1024,
+      "inputRole": "Light companion is edit target; preserve content and layout",
+      "references": [
+        "auth-and-data-light.png"
+      ],
+      "prompt": "Use case: ui-mockup / precise theme transfer. Edit the supplied LIGHT interaction-state design board into its exact DARK companion. Preserve the complete composition, all four quadrants, all Chinese text and numbers, all labels and buttons, the UI information hierarchy, proportions, alignment and diagrams; change ONLY theme colors and lighting. Keep small \"设计稿 · 示例数据\" labels in every quadrant. Change subtitle \"界面状态规范 · 浅色\" to \"界面状态规范 · 深色\". Palette: page #10131d, panels #191e2b, secondary #222939, main text #e8edf8, muted #a0acc3, border #30394b, input boundaries #6c7b96, focus #b2bdff. Primary button gradient #9eaafa to #baabf8 with deep #151a32 text. Selection #2a3151 with #b2bdff text. Error text #ff9daf on #35212a; warning #f0c778 on #392e1a; success #80d6b3 on #17362e. Retain a gentle deep indigo/plum glow near header and edges, no neon or pure black page, no glow underneath reading/editor surfaces. All reading and input surfaces solid dark. Ensure text is clear and comfortable, fine-line icons coherent. No new UI controls, content, features or changed copy except the theme subtitle. High-resolution static concept image.",
+      "generatedSource": "/Users/ytg/.codex/generated_images/01a16317-e61d-7582-8dd9-da11b340787b/exec-1ec7ffb2-ad7a-482c-bb7e-d3ce82e40c5a.png",
+      "sha256": "b98fa39f6d21511acf3dcee9962e0bb62ce22c83e161db8a451501670894d2d5",
+      "inspected": true
+    },
+    {
+      "file": "save-and-conflict-light.png",
+      "theme": "light",
+      "width": 1586,
+      "height": 992,
+      "inputRole": "Accepted light workspace is style reference only",
+      "references": [
+        "../references/practice-editor-light.png"
+      ],
+      "prompt": "Use case: ui-mockup. Asset: high fidelity static interaction-state design board for the Chinese interview learning platform 面试工坊 / Interview Forge. The supplied accepted workspace reference is solely a STYLE REFERENCE. Preserve its clean professional developer-tool aesthetic, thin line icons, indigo-lavender accents, restrained subtle blue/lilac ambient glow, solid reading/input panels, 14px-equivalent panel radii, 8px button radii, comfortable Simplified Chinese typography. This asset is a STATE SPECIFICATION BOARD, so override the standard desktop/H5 page-board composition: use a crisp wide landscape canvas with FOUR equally important, generously sized UI component examples in a balanced 2 by 2 grid. Every quadrant is a complete readable UI fragment, not a shrunken full-page screenshot. No mobile inset, no device hardware, no perspective, no giant slogans, no tiny illegible annotations. Small brand at top left, concise board title and 01/02/03/04 state labels. All four examples must be legible in the one board. Every quadrant bottom includes exactly \"设计稿 · 示例数据\". Never imply the sample is actually implemented.\nLIGHT ONLY. Page #f6f7fb, panels #ffffff, secondary #eef1f7, main text #1f293b, muted text #657087 on white and #5f6b82 on secondary, subtle separators #e1e6ef; input boundaries #7b879f. Primary button gradient #5263dc to #745edb with white text; selection #eceffd with #4958c9 text. Failure text #b53349 on #fff1f3, warning #926015 on #fff4dc, success #257b63 on #eaf7f0. Fine focal outlines #5263dc. Apply restrained ambient glow only near the header and board edges. Reading and editor backgrounds remain solid. Use clear labels, status icons and Chinese text together. All data fictional. No photos, 3D characters, excessive charts, foreign login providers, billing or video call features. Render clean exact Chinese text.\nBoard title (verbatim): \"保存与冲突状态\". Small subtitle: \"界面状态规范 · 浅色\".\nQuadrant 01 title: \"01 保存失败\". A readable editor card \"我的回答\" retains the text \"闭包可以封装私有状态。我的新增内容仍在这里。\". A compact pale red error banner says \"保存失败，文字已保留\" and \"尚未收到服务端确认。\". The state badge is \"未保存\". Show a visible primary button \"重试保存\". Never erase or replace the editor contents with the error.\nQuadrant 02 title: \"02 版本冲突 · 409\". A compare panel with title \"检测到版本冲突\", two adjacent columns labelled exactly \"本地 · base v3\" and \"云端 · server v4\". Local text \"闭包常用于私有状态。\", remote text \"闭包需注意内存释放。\". Highlight changed lines with restrained contrast. Primary action \"比较后手动合并\", secondary action \"先保留本地内容\". A clear caution note says \"不会自动覆盖任一版本；合并后基于 v4 再保存。\". No button named force overwrite, no automatic merge claim.\nQuadrant 03 title: \"03 离开前确认\". A solid editor fragment still visible behind a compact dialog titled \"还有未保存的内容\". Body \"离开将放弃当前页面的改动。\". Exactly two actionable choices: primary \"继续编辑\" and an outlined danger action \"放弃并离开\". Keep the destructive action visually distinct but not the primary emphasis. Do not imply the data has already been saved.\nQuadrant 04 title: \"04 保存中继续输入\". An editor fragment containing two sentences on separate lines: \"闭包保留外层词法环境。\" and \"也可以封装私有状态。\". The second new sentence is subtly highlighted. Above the editor show \"正在保存快照 S1\". A small state timeline reads \"发送 S1 → 继续输入 → 仅 S1 获确认\". Below editor a precise status banner says \"S1 已保存，新输入仍未保存\". Small supporting note \"只确认发送时的旧快照，不覆盖后输入的文字。\". Button label \"保存新改动\". Convey that request success confirms only the earlier snapshot, while the user's newer input remains visible and dirty.\nKeep all four quadrants balanced, precise, and large enough to read. All examples are design states with fictional data, never a demonstration of live synchronization.",
+      "generatedSource": "/Users/ytg/.codex/generated_images/01a16317-e61d-7582-8dd9-da11b340787b/exec-6dbec735-909a-410d-8b5c-0690306c8fce.png",
+      "sha256": "6ab7d90cf33d5359f9389a70fcec7fac22f0bb94888c99de449170d93fb4f118",
+      "inspected": true
+    },
+    {
+      "file": "save-and-conflict-dark.png",
+      "theme": "dark",
+      "width": 1586,
+      "height": 992,
+      "inputRole": "Light companion is edit target; preserve content and layout",
+      "references": [
+        "save-and-conflict-light.png"
+      ],
+      "prompt": "Use case: ui-mockup / precise theme transfer. Edit the supplied LIGHT interaction-state design board into its exact DARK companion. Preserve the complete composition, all four quadrants, all Chinese text and numbers, all labels and buttons, the UI information hierarchy, proportions, alignment and diagrams; change ONLY theme colors and lighting. Keep small \"设计稿 · 示例数据\" labels in every quadrant. Change subtitle \"界面状态规范 · 浅色\" to \"界面状态规范 · 深色\". Palette: page #10131d, panels #191e2b, secondary #222939, main text #e8edf8, muted #a0acc3, border #30394b, input boundaries #6c7b96, focus #b2bdff. Primary button gradient #9eaafa to #baabf8 with deep #151a32 text. Selection #2a3151 with #b2bdff text. Error text #ff9daf on #35212a; warning #f0c778 on #392e1a; success #80d6b3 on #17362e. Retain a gentle deep indigo/plum glow near header and edges, no neon or pure black page, no glow underneath reading/editor surfaces. All reading and input surfaces solid dark. Ensure text is clear and comfortable, fine-line icons coherent. No new UI controls, content, features or changed copy except the theme subtitle. High-resolution static concept image.",
+      "generatedSource": "/Users/ytg/.codex/generated_images/01a16317-e61d-7582-8dd9-da11b340787b/exec-071710b6-a424-41b6-8c7e-61eeec04245b.png",
+      "sha256": "b16c91a3093fe8ee99d0a64c402183e4f956fa6c01789b0b5f34c2edd41f5186",
+      "inspected": true
+    }
+  ]
+}

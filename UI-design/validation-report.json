@@ -1,0 +1,726 @@
+{
+  "date": "2026-10-22",
+  "status": "passed",
+  "pageTypes": 17,
+  "selectedPageBoards": 34,
+  "viewsPerBoard": [
+    "desktop",
+    "h5"
+  ],
+  "selectedStateBoards": 4,
+  "acceptedReferences": 2,
+  "selectedImages": 40,
+  "allPngIncludingRetainedIterations": 44,
+  "pngChecks": [
+    "signature",
+    "IHDR dimensions",
+    "all chunk CRCs",
+    "IEND",
+    "IDAT zlib decode"
+  ],
+  "jsonFilesParsedWithoutDuplicateKeys": 24,
+  "localMarkdownLinksChecked": 144,
+  "assets": [
+    {
+      "file": "pages/01-login/dark.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1537612,
+      "sha256": "0454b2b10083f7baca61740df78f48f37f6bdb7ab3c9af7c165f4f60af7fa87e"
+    },
+    {
+      "file": "pages/01-login/light-v2.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1506765,
+      "sha256": "35e59965ba40c47a3e83dce44bced65fe9ca0847a4659d11e805c1bc24dd5914"
+    },
+    {
+      "file": "pages/01-login/light.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1511628,
+      "sha256": "7f877307554c8a1cba30d9a743b2033b8d4fec5a7cf31394c46395b0c2c4e23a"
+    },
+    {
+      "file": "pages/02-dashboard/dark.png",
+      "width": 1585,
+      "height": 992,
+      "bytes": 1589264,
+      "sha256": "87b40ac1eb4a36b90d721a4e7b40bef950136e6fe2d1f527e89c94344a8fc2ef"
+    },
+    {
+      "file": "pages/02-dashboard/light.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1454328,
+      "sha256": "57b9243a3657f04cff1859bd31db04d9f47a55e9e23a47e8f2fc80e5110d1974"
+    },
+    {
+      "file": "pages/03-questions/dark.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1592370,
+      "sha256": "c47b60c4189f8ce54dcda7048b51c321868175ab3c656e4193df6460e67b9060"
+    },
+    {
+      "file": "pages/03-questions/light-v2.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1630407,
+      "sha256": "a88d28c00fd387d7f5a5189b604a189f5509df11a3799eb9f461c00099c15747"
+    },
+    {
+      "file": "pages/03-questions/light.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1469579,
+      "sha256": "7331e51bf868aa2eb4a88312e9020ef14d323e17a91b0ec0538a6f2e259ecd11"
+    },
+    {
+      "file": "pages/04-question-detail/dark.png",
+      "width": 1585,
+      "height": 992,
+      "bytes": 1601537,
+      "sha256": "a0e9aa8846ed0531fa7826b6d129fa4c8b00dd593f829a273a7f9964fbd10053"
+    },
+    {
+      "file": "pages/04-question-detail/light.png",
+      "width": 1585,
+      "height": 992,
+      "bytes": 1450821,
+      "sha256": "6388505b52e856c4980c6c3b660f1cc3b3f9a5cbe5f4535c057f9e96f4e0061f"
+    },
+    {
+      "file": "pages/05-my-practice/dark.png",
+      "width": 1585,
+      "height": 992,
+      "bytes": 1456426,
+      "sha256": "7b213a9e87eac6328762bdd5a166f88554d8fc486fea5cf2ee57cb0c598156e0"
+    },
+    {
+      "file": "pages/05-my-practice/light.png",
+      "width": 1585,
+      "height": 992,
+      "bytes": 1357491,
+      "sha256": "373f8e621ce4890849a307cb691d88ac61e779730a7729cd6f8f66a669a7a28d"
+    },
+    {
+      "file": "pages/06-practice-editor/dark.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1547150,
+      "sha256": "b621cd71e11752dd49ce7691f181e06dda04969cd104393ea66b08f1bea51a4b"
+    },
+    {
+      "file": "pages/06-practice-editor/light.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1413556,
+      "sha256": "c68b9ea32cc6157485be38e6de0d318dca43821670865cfe063c504277c446d0"
+    },
+    {
+      "file": "pages/07-practice-review/dark.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1687741,
+      "sha256": "3c07141e184103a4df69350e6ccc7f077ab87b7a292d66890c1d65a4e99df5ba"
+    },
+    {
+      "file": "pages/07-practice-review/light.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1517537,
+      "sha256": "b2e21158c3d4ff960572a62c9bcaefbdf638eeb524e249e249b1f5301750dc53"
+    },
+    {
+      "file": "pages/08-rooms/dark.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1634987,
+      "sha256": "e1f921a70be6bf33910e2f6f2c9d5bca81a9c2dfda33383d051f35544af0a8e9"
+    },
+    {
+      "file": "pages/08-rooms/light.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1505920,
+      "sha256": "7f63bed000ed85bd27d9be4a38624a6562a4e7976256068933f6d2a8b6a69476"
+    },
+    {
+      "file": "pages/09-room-detail/dark.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1630278,
+      "sha256": "bae653e691b4df20c143f90d7f5ed86072812a50f2bf68a83917a4290e806180"
+    },
+    {
+      "file": "pages/09-room-detail/light.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1491848,
+      "sha256": "0344bcaf7c2425903a1731b191ccd7cb7c74c4a6ffd75cdef8c2d353d77162ef"
+    },
+    {
+      "file": "pages/10-lab/dark-v2.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1627381,
+      "sha256": "1a89c4b003f39dd5e13bf64442b40ceca6f219343e77fc7d1e922283b826fba5"
+    },
+    {
+      "file": "pages/10-lab/dark.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1566812,
+      "sha256": "264a804c1e8cf46e1f5eac3cb61431162974ac63a0c6d130b21b95d56b83d07d"
+    },
+    {
+      "file": "pages/10-lab/light-v2.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1603446,
+      "sha256": "927066d99e4e55941f2efd109c52f52f0bc9c5634fd48aa84ae9dcd6f34cf8e5"
+    },
+    {
+      "file": "pages/10-lab/light.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1441367,
+      "sha256": "befdf854070cbb33f19bcf5a921826046bc6d2833571656a2a7935bf5b824174"
+    },
+    {
+      "file": "pages/11-groups/dark.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1554123,
+      "sha256": "ddbffc6ff9771c5c87152da82edfde4dfed1b3cc57933852786551dccb94ad11"
+    },
+    {
+      "file": "pages/11-groups/light.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1536374,
+      "sha256": "3070e4b71dde4aad3630f0f40f22236f2806a4a609946c87e708edf012d800c5"
+    },
+    {
+      "file": "pages/12-portfolio/dark.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1797610,
+      "sha256": "2e4c01ca8d0a41a64c057bb336042a3d077f9fbb29a6e81b680bd94f9df61620"
+    },
+    {
+      "file": "pages/12-portfolio/light.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1700651,
+      "sha256": "7d4b910365b7132d38b42ac759e9a784d926336c868be20b1e9aee9ee05fdd62"
+    },
+    {
+      "file": "pages/13-offline/dark.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1637582,
+      "sha256": "31f17812091f9bd8083affa2e5ba820f4098ddf62121c7663161c41b8c9b327b"
+    },
+    {
+      "file": "pages/13-offline/light.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1482110,
+      "sha256": "680e51431dc615a25a2dfd5b0ecda9c7d6eb97abc8db401194b9fb04fa5eb09d"
+    },
+    {
+      "file": "pages/14-coach/dark.png",
+      "width": 1585,
+      "height": 992,
+      "bytes": 1593401,
+      "sha256": "8fadfc157e53baf98f1b6f11c5485d4958dd575ee0ed1d879c89e7a9bd5ad66b"
+    },
+    {
+      "file": "pages/14-coach/light.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1412854,
+      "sha256": "6ab47bc2439372c69f615ec801196059643ae471881925961fe61be4e3a8c309"
+    },
+    {
+      "file": "pages/15-ops/dark.png",
+      "width": 1585,
+      "height": 992,
+      "bytes": 1650495,
+      "sha256": "086b791798207474dba8604a4d06551ba4cb7321df0298fb11705f94b0ec521f"
+    },
+    {
+      "file": "pages/15-ops/light.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1482335,
+      "sha256": "d27f0e331904b547c5a1bb1b628224ec48d94b8171bc83350920c39b29ad080a"
+    },
+    {
+      "file": "pages/16-settings/dark.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1509346,
+      "sha256": "e7ac8543a2c249e2695b911c783e2618e8fdcc9806bdaed2439d19792da5b54f"
+    },
+    {
+      "file": "pages/16-settings/light.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1354889,
+      "sha256": "042ae57c72f28ced85e61fa3d551557c9518605caaa0a3bd2d32102eed6aa0e7"
+    },
+    {
+      "file": "pages/17-question-editor/dark.png",
+      "width": 1584,
+      "height": 993,
+      "bytes": 1574277,
+      "sha256": "cd79f749a203177442493b9c18b8df81aefb6e7da4797569b820cf6fcdb80e41"
+    },
+    {
+      "file": "pages/17-question-editor/light.png",
+      "width": 1584,
+      "height": 993,
+      "bytes": 1414653,
+      "sha256": "5792fa31dac7e1c0fe1ef44052224e7d8995190a0d1cb48505ca03866e590111"
+    },
+    {
+      "file": "references/practice-editor-dark.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1462164,
+      "sha256": "088889025f05ed80f706f581b14990ef6a5277a5474fecff4862b32eddfeb4aa"
+    },
+    {
+      "file": "references/practice-editor-light.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1357327,
+      "sha256": "fd8c8c4bec9109f4d7aa790abd92daa24b38a5d989a50d7674883b2a5d652087"
+    },
+    {
+      "file": "states/auth-and-data-dark.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1448157,
+      "sha256": "b98fa39f6d21511acf3dcee9962e0bb62ce22c83e161db8a451501670894d2d5"
+    },
+    {
+      "file": "states/auth-and-data-light.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1391486,
+      "sha256": "00003f83d1ff6f3935bdbac7a144ab3b96eedc7dc9338724297d7fc5ec8bfac7"
+    },
+    {
+      "file": "states/save-and-conflict-dark.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1511881,
+      "sha256": "b16c91a3093fe8ee99d0a64c402183e4f956fa6c01789b0b5f34c2edd41f5186"
+    },
+    {
+      "file": "states/save-and-conflict-light.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1363879,
+      "sha256": "6ab7d90cf33d5359f9389a70fcec7fac22f0bb94888c99de449170d93fb4f118"
+    }
+  ],
+  "tokenValidation": {
+    "status": "passed",
+    "method": "Python standard library; JSON Pointer and mode bindings; sRGB relative luminance; primary gradient sampled at 101 points",
+    "jsonPointerReferences": 108,
+    "modeBindings": 22,
+    "colorsPerTheme": 44,
+    "checks": [
+      {
+        "mode": "light",
+        "foreground": "foreground",
+        "background": "background",
+        "minimum": 4.5,
+        "ratio": 13.635
+      },
+      {
+        "mode": "light",
+        "foreground": "muted-foreground",
+        "background": "background",
+        "minimum": 4.5,
+        "ratio": 4.647
+      },
+      {
+        "mode": "light",
+        "foreground": "link",
+        "background": "background",
+        "minimum": 4.5,
+        "ratio": 5.485
+      },
+      {
+        "mode": "light",
+        "foreground": "foreground",
+        "background": "surface",
+        "minimum": 4.5,
+        "ratio": 14.598
+      },
+      {
+        "mode": "light",
+        "foreground": "muted-foreground",
+        "background": "surface",
+        "minimum": 4.5,
+        "ratio": 4.975
+      },
+      {
+        "mode": "light",
+        "foreground": "link",
+        "background": "surface",
+        "minimum": 4.5,
+        "ratio": 5.872
+      },
+      {
+        "mode": "light",
+        "foreground": "muted-surface-foreground",
+        "background": "surface-muted",
+        "minimum": 4.5,
+        "ratio": 4.745
+      },
+      {
+        "mode": "light",
+        "foreground": "muted-surface-foreground",
+        "background": "surface-hover",
+        "minimum": 4.5,
+        "ratio": 4.925
+      },
+      {
+        "mode": "light",
+        "foreground": "selection-foreground",
+        "background": "selection",
+        "minimum": 4.5,
+        "ratio": 5.204
+      },
+      {
+        "mode": "light",
+        "foreground": "inverse-foreground",
+        "background": "inverse-surface",
+        "minimum": 4.5,
+        "ratio": 14.598
+      },
+      {
+        "mode": "light",
+        "foreground": "disabled-foreground",
+        "background": "disabled-surface",
+        "minimum": 4.5,
+        "ratio": 4.745
+      },
+      {
+        "mode": "light",
+        "foreground": "success",
+        "background": "success-surface",
+        "minimum": 4.5,
+        "ratio": 4.658
+      },
+      {
+        "mode": "light",
+        "foreground": "warning",
+        "background": "warning-surface",
+        "minimum": 4.5,
+        "ratio": 4.922
+      },
+      {
+        "mode": "light",
+        "foreground": "danger",
+        "background": "danger-surface",
+        "minimum": 4.5,
+        "ratio": 5.412
+      },
+      {
+        "mode": "light",
+        "foreground": "info",
+        "background": "info-surface",
+        "minimum": 4.5,
+        "ratio": 5.422
+      },
+      {
+        "mode": "light",
+        "foreground": "primary-foreground",
+        "background": "primary",
+        "minimum": 4.5,
+        "ratio": 5.028
+      },
+      {
+        "mode": "light",
+        "foreground": "primary-foreground",
+        "background": "primary-hover",
+        "minimum": 4.5,
+        "ratio": 5.972
+      },
+      {
+        "mode": "light",
+        "foreground": "primary-foreground",
+        "background": "primary-pressed",
+        "minimum": 4.5,
+        "ratio": 6.887
+      },
+      {
+        "mode": "light",
+        "foreground": "danger-foreground",
+        "background": "danger",
+        "minimum": 4.5,
+        "ratio": 5.941
+      },
+      {
+        "mode": "light",
+        "foreground": "danger-foreground",
+        "background": "danger-hover",
+        "minimum": 4.5,
+        "ratio": 7.009
+      },
+      {
+        "mode": "light",
+        "foreground": "border-control",
+        "background": "background",
+        "minimum": 3,
+        "ratio": 3.377
+      },
+      {
+        "mode": "light",
+        "foreground": "focus",
+        "background": "background",
+        "minimum": 3,
+        "ratio": 4.696
+      },
+      {
+        "mode": "light",
+        "foreground": "border-control",
+        "background": "surface",
+        "minimum": 3,
+        "ratio": 3.615
+      },
+      {
+        "mode": "light",
+        "foreground": "focus",
+        "background": "surface",
+        "minimum": 3,
+        "ratio": 5.028
+      },
+      {
+        "mode": "light",
+        "foreground": "border-control",
+        "background": "surface-muted",
+        "minimum": 3,
+        "ratio": 3.195
+      },
+      {
+        "mode": "light",
+        "foreground": "focus",
+        "background": "surface-muted",
+        "minimum": 3,
+        "ratio": 4.444
+      },
+      {
+        "mode": "light",
+        "gradient": "primary",
+        "samples": 101,
+        "minimum": 4.5,
+        "minimumRatio": 4.809
+      },
+      {
+        "mode": "dark",
+        "foreground": "foreground",
+        "background": "background",
+        "minimum": 4.5,
+        "ratio": 15.8
+      },
+      {
+        "mode": "dark",
+        "foreground": "muted-foreground",
+        "background": "background",
+        "minimum": 4.5,
+        "ratio": 8.106
+      },
+      {
+        "mode": "dark",
+        "foreground": "link",
+        "background": "background",
+        "minimum": 4.5,
+        "ratio": 10.253
+      },
+      {
+        "mode": "dark",
+        "foreground": "foreground",
+        "background": "surface",
+        "minimum": 4.5,
+        "ratio": 14.185
+      },
+      {
+        "mode": "dark",
+        "foreground": "muted-foreground",
+        "background": "surface",
+        "minimum": 4.5,
+        "ratio": 7.278
+      },
+      {
+        "mode": "dark",
+        "foreground": "link",
+        "background": "surface",
+        "minimum": 4.5,
+        "ratio": 9.205
+      },
+      {
+        "mode": "dark",
+        "foreground": "muted-surface-foreground",
+        "background": "surface-muted",
+        "minimum": 4.5,
+        "ratio": 6.359
+      },
+      {
+        "mode": "dark",
+        "foreground": "muted-surface-foreground",
+        "background": "surface-hover",
+        "minimum": 4.5,
+        "ratio": 5.844
+      },
+      {
+        "mode": "dark",
+        "foreground": "selection-foreground",
+        "background": "selection",
+        "minimum": 4.5,
+        "ratio": 7.012
+      },
+      {
+        "mode": "dark",
+        "foreground": "inverse-foreground",
+        "background": "inverse-surface",
+        "minimum": 4.5,
+        "ratio": 14.604
+      },
+      {
+        "mode": "dark",
+        "foreground": "disabled-foreground",
+        "background": "disabled-surface",
+        "minimum": 4.5,
+        "ratio": 6.359
+      },
+      {
+        "mode": "dark",
+        "foreground": "success",
+        "background": "success-surface",
+        "minimum": 4.5,
+        "ratio": 7.6
+      },
+      {
+        "mode": "dark",
+        "foreground": "warning",
+        "background": "warning-surface",
+        "minimum": 4.5,
+        "ratio": 8.322
+      },
+      {
+        "mode": "dark",
+        "foreground": "danger",
+        "background": "danger-surface",
+        "minimum": 4.5,
+        "ratio": 7.626
+      },
+      {
+        "mode": "dark",
+        "foreground": "info",
+        "background": "info-surface",
+        "minimum": 4.5,
+        "ratio": 7.28
+      },
+      {
+        "mode": "dark",
+        "foreground": "primary-foreground",
+        "background": "primary",
+        "minimum": 4.5,
+        "ratio": 7.819
+      },
+      {
+        "mode": "dark",
+        "foreground": "primary-foreground",
+        "background": "primary-hover",
+        "minimum": 4.5,
+        "ratio": 9.407
+      },
+      {
+        "mode": "dark",
+        "foreground": "primary-foreground",
+        "background": "primary-pressed",
+        "minimum": 4.5,
+        "ratio": 6.542
+      },
+      {
+        "mode": "dark",
+        "foreground": "danger-foreground",
+        "background": "danger",
+        "minimum": 4.5,
+        "ratio": 8.179
+      },
+      {
+        "mode": "dark",
+        "foreground": "danger-foreground",
+        "background": "danger-hover",
+        "minimum": 4.5,
+        "ratio": 9.395
+      },
+      {
+        "mode": "dark",
+        "foreground": "border-control",
+        "background": "background",
+        "minimum": 3,
+        "ratio": 4.335
+      },
+      {
+        "mode": "dark",
+        "foreground": "focus",
+        "background": "background",
+        "minimum": 3,
+        "ratio": 10.253
+      },
+      {
+        "mode": "dark",
+        "foreground": "border-control",
+        "background": "surface",
+        "minimum": 3,
+        "ratio": 3.892
+      },
+      {
+        "mode": "dark",
+        "foreground": "focus",
+        "background": "surface",
+        "minimum": 3,
+        "ratio": 9.205
+      },
+      {
+        "mode": "dark",
+        "foreground": "border-control",
+        "background": "surface-muted",
+        "minimum": 3,
+        "ratio": 3.4
+      },
+      {
+        "mode": "dark",
+        "foreground": "focus",
+        "background": "surface-muted",
+        "minimum": 3,
+        "ratio": 8.043
+      },
+      {
+        "mode": "dark",
+        "gradient": "primary",
+        "samples": 101,
+        "minimum": 4.5,
+        "minimumRatio": 7.819
+      }
+    ],
+    "limitations": "Token pairing calculations only; no browser or app integration validation."
+  },
+  "limits": [
+    "Static visual concepts, not clickable pages",
+    "PNG text and geometry may differ from implementation tokens",
+    "No browser, API, app build or CSS integration validation performed for this design-only task"
+  ]
+}

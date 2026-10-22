@@ -1,0 +1,46 @@
+{
+  "generator": "built-in image_gen",
+  "created": "2026-10-22",
+  "owner": "design_pages_learning",
+  "scope": [
+    "02-dashboard",
+    "04-question-detail",
+    "07-practice-review",
+    "11-groups",
+    "12-portfolio"
+  ],
+  "artifactType": "static-ui-concept",
+  "pages": [
+    {
+      "id": "02-dashboard",
+      "light": "/Users/ytg/.codex/generated_images/01a1631a-25d3-7472-94ef-20bbe07cd36f/exec-69c7ba17-212a-47ab-be8b-43ec9fd12111.png",
+      "dark": "/Users/ytg/.codex/generated_images/01a1631a-25d3-7472-94ef-20bbe07cd36f/exec-a8145401-5f4a-45e9-be1b-2d1cabcf6b77.png",
+      "visualQA": "Inspected both boards: same page and mobile reflow; reading surfaces remain solid; distinct independent loading-failure status; fictional-data footer."
+    },
+    {
+      "id": "04-question-detail",
+      "light": "/Users/ytg/.codex/generated_images/01a1631a-25d3-7472-94ef-20bbe07cd36f/exec-46ae1ef5-8e4f-4250-ab34-fbbf6d5894ba.png",
+      "dark": "/Users/ytg/.codex/generated_images/01a1631a-25d3-7472-94ef-20bbe07cd36f/exec-125070f3-aec2-4fe1-8096-c51fd7a762d6.png",
+      "visualQA": "Inspected both: own history, publication version and question remain clear; mobile is stacked with contextual action bar; gradients stay above reading."
+    },
+    {
+      "id": "07-practice-review",
+      "light": "/Users/ytg/.codex/generated_images/01a1631a-25d3-7472-94ef-20bbe07cd36f/exec-c106a4a3-1693-47ef-9b42-3362dbeed7b5.png",
+      "dark": "/Users/ytg/.codex/generated_images/01a1631a-25d3-7472-94ef-20bbe07cd36f/exec-0cf509d6-97bf-46bb-8289-d4ad61c8d1db.png",
+      "visualQA": "Inspected both: versioned submission snapshot and archived note visible; current report generating distinct from previous failed run; snapshot retained, retry; no AI score. H5 stacks with contextual continue."
+    },
+    {
+      "id": "11-groups",
+      "light": "/Users/ytg/.codex/generated_images/01a1631a-25d3-7472-94ef-20bbe07cd36f/exec-71bdaff9-1548-44e8-adb4-3e00d099392e.png",
+      "dark": "/Users/ytg/.codex/generated_images/01a1631a-25d3-7472-94ef-20bbe07cd36f/exec-cae3ce7e-bd02-496c-9467-684ac7f13226.png",
+      "visualQA": "Inspected both: group selector, own role and permission note on desktop, shared plan, authorized peer review, engineering evidence. Mobile uses selector, tabs and stacked cards. Dark mobile vertically compresses role overview; static concept not pixel-perfect implementation."
+    },
+    {
+      "id": "12-portfolio",
+      "light": "/Users/ytg/.codex/generated_images/01a1631a-25d3-7472-94ef-20bbe07cd36f/exec-1f0ee24a-3ad3-4951-b2ea-b791a3ba5495.png",
+      "dark": "/Users/ytg/.codex/generated_images/01a1631a-25d3-7472-94ef-20bbe07cd36f/exec-d6630e7a-29a7-46b1-837d-735e9fa298ac.png",
+      "visualQA": "Inspected both: public header only; explicitly selected public results, bilingual description, evidence and project cards; private answers/drafts excluded by visible notice; fictional-data footer. H5 is single-column."
+    }
+  ],
+  "limitations": "AI-generated raster concepts; text, dimensions and exact theme values must be governed by tokens and implementation. Dates, data and completion evidence inside images are fictional examples, not project verification."
+}

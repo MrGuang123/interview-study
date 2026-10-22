@@ -9,7 +9,8 @@
 - 五个目标应用的职责 README；四个共享包的职责 README。
 - 运行配置、维护脚本、跨应用验证与运行手册的目录说明。
 - 产品/学习设计、架构决定、目标代码结构与逐步搭建指南。
-- 阶段 2 实施建议和 UI/交互文档已建立；用户已接受当前预览为 UI v0，共同样式基线已记录。正式四页线框、完整视觉稿/原型与设计令牌实现尚未完成，预览仍为模拟数据。
+- 阶段 2 实施建议和 UI/交互文档已建立；用户已接受浅深色渐变方向。[UI-design](../UI-design/README.md) 保存全站 17 类页面的 34 张浅/深色设计板，每张含桌面与 H5，另有原始参考 2 图和关键状态板 4 图；均使用示例数据，不代表逐页用户验收。完整可点击原型与浏览器可访问性验收仍待完成。
+- `packages/design-tokens/src/tokens.json` 已建立平台中立完整令牌，覆盖配色、渐变、尺寸、排版、圆角、阴影、层级、动效、布局和组件状态；尚无包清单、生成器或 CSS 输出，未接入 Web。
 - PostgreSQL 手写学习第一课按用户反馈完成：用户已亲手创建 Compose、环境示例与本地配置，并确认 SQL 读写及 `down`/`up` 后数据保留正常。代理前次只读核对容器为 healthy；SQL 与重建验证由用户执行。
 - 换电脑/新会话的交接入口与新电脑开发手册；尚未在第二台电脑执行安装和验证。
 
@@ -24,13 +25,16 @@
 | studio-service | 已创建 | 已安装；构建、lint、类型、1 单测及 1 E2E 通过 | 仅验证默认 HTTP 示例 |
 | report-worker | 已创建 | 已安装；构建、lint、类型、1 单测及 1 E2E 通过 | 仅验证默认 HTTP 示例 |
 | ai-service | 已创建 | 已安装；构建、lint、类型、1 单测及 1 E2E 通过 | 仅验证默认 HTTP 示例 |
-| contracts / design-tokens / simulation-core / api-client | 已创建职责文档 | 未生成可构建包 | 未开始 |
+| design-tokens | 已创建职责文档与完整 JSON 令牌源 | 未生成可构建包或 CSS | Web/多端消费未开始 |
+| contracts / simulation-core / api-client | 已创建职责文档 | 未生成可构建包 | 未开始 |
+| UI-design | 17 类页面浅深色桌面/H5 图稿、参考与状态板 | 静态概念设计，全部为示例数据 | 可点击链路、实际可访问性和业务联调未验收 |
 | Compose / PostgreSQL | 已创建职责文档与开发配置 | PostgreSQL 18.6 Alpine 已启动且健康 | 用户确认 SQL 读写、重建后保留通过；应用集成未开始 |
 | Nginx / 观测 | 已创建职责文档 | 无运行配置 | 未验证 |
 | 备份 / 恢复 / CI / 跨应用测试 | 已创建职责文档 | 无执行配置 | 未验证 |
 
 ## 已核对与未执行
 
+- 2026-10-22 全站静态设计交付已核对：17 类页面的 34 张浅深色桌面/H5 板、4 张关键状态板与 2 张原始参考存在；PNG 完整性、JSON、链接、108 个令牌引用、22 个主题绑定及配色独立复核通过，详见 [设计验证记录](../UI-design/validation-report.json)。未运行页面集成或浏览器验收。
 - 已核对本机 Node `v24.19.0`、pnpm `11.22.0`，据此创建初始工具配置。
 - 已检查文档的本地链接、代码围栏、根 JSON 与 workspace 范围；本地文档引用均可解析。
 - 已执行 `pnpm -r --include-workspace-root list --depth -1 --json`，根与五个应用均可识别；共享包仍无清单。
@@ -50,6 +54,6 @@
 
 ## 下一步
 
-按 [手写学习 02](lesson-02-database-roles.md) 由用户手写创建 `forge_migrator`、`forge_app` 与 `core` schema，验证真实密码登录和结构权限，再进入 Prisma 集成。同时按已接受的 [UI v0](ui-and-interaction.md) 逐步完善首批页面与异常交互；不再把选择主题作为未完成前置。[首次检查手册](runbooks/initial-verification.md) 中浏览器脚手架手动检查仍待执行，依赖升级单独验证。
+按 [手写学习 02](lesson-02-database-roles.md) 由用户手写创建 `forge_migrator`、`forge_app` 与 `core` schema，验证真实密码登录和结构权限，再进入 Prisma 集成。同时依据 [全站图稿](../UI-design/README.md) 和完整令牌源，按 [主题指南](ui-theme-guide.md) 分步建立 Web 映射及首条链路组件；完整渐变/阴影/布局映射、交互与浏览器可访问性仍须验证，不再重复选择主题。[首次检查手册](runbooks/initial-verification.md) 中浏览器脚手架手动检查仍待执行，依赖升级单独验证。
 
 App、桌面、小程序的具体实现框架，以及独立网关/BFF、协同编辑实现，仍按 [架构决定](decisions/0001-foundation-boundaries.md) 保持待评估。

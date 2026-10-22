@@ -1,0 +1,52 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-10-22",
+  "pages": [
+    {
+      "id": "01-login",
+      "selected": {
+        "light": "light-v2.png",
+        "dark": "dark.png"
+      },
+      "prompts": "pages/01-login/prompts.json",
+      "visualReview": "Checked desktop/H5 hierarchy, theme pairing, primary actions and example-data context. Login public shell and all-topic filters were refined; previous images retained."
+    },
+    {
+      "id": "03-questions",
+      "selected": {
+        "light": "light-v2.png",
+        "dark": "dark.png"
+      },
+      "prompts": "pages/03-questions/prompts.json",
+      "visualReview": "Checked desktop/H5 hierarchy, theme pairing, primary actions and example-data context. Login public shell and all-topic filters were refined; previous images retained."
+    },
+    {
+      "id": "05-my-practice",
+      "selected": {
+        "light": "light.png",
+        "dark": "dark.png"
+      },
+      "prompts": "pages/05-my-practice/prompts.json",
+      "visualReview": "Checked desktop/H5 hierarchy, theme pairing, primary actions and example-data context. Login public shell and all-topic filters were refined; previous images retained."
+    },
+    {
+      "id": "06-practice-editor",
+      "selected": {
+        "light": "light.png",
+        "dark": "dark.png"
+      },
+      "prompts": "pages/06-practice-editor/prompts.json",
+      "visualReview": "Checked desktop/H5 hierarchy, theme pairing, primary actions and example-data context. Login public shell and all-topic filters were refined; previous images retained."
+    },
+    {
+      "id": "16-settings",
+      "selected": {
+        "light": "light.png",
+        "dark": "dark.png"
+      },
+      "prompts": "pages/16-settings/prompts.json",
+      "visualReview": "Checked desktop/H5 hierarchy, theme pairing, primary actions and example-data context. Login public shell and all-topic filters were refined; previous images retained."
+    }
+  ]
+}
+

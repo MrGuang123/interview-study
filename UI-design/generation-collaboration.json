@@ -1,0 +1,84 @@
+{
+  "version": "1.0.0",
+  "generator": "built-in image_gen",
+  "status": "completed",
+  "artifactType": "static-ui-concept",
+  "totalPages": 7,
+  "totalImages": 14,
+  "referenceLight": "references/practice-editor-light.png",
+  "referenceDark": "references/practice-editor-dark.png",
+  "allFictionalDesignData": true,
+  "implementationStatus": "not-implemented",
+  "pages": [
+    {
+      "id": "08-rooms",
+      "status": "generated-and-visually-reviewed",
+      "lightSource": "/Users/ytg/.codex/generated_images/01a1631a-6337-7b43-8540-8163a719c121/exec-332ba2cd-46ea-42b8-9bb6-313aefb0e977.png",
+      "darkSource": "/Users/ytg/.codex/generated_images/01a1631a-6337-7b43-8540-8163a719c121/exec-27dff618-3774-4cf6-a455-27aa5e6ee85b.png",
+      "notes": "桌面+H5同主题设计板；日期为虚构示例，不代表当前预约",
+      "light": "pages/08-rooms/light.png",
+      "dark": "pages/08-rooms/dark.png",
+      "prompt": "pages/08-rooms/prompts.json"
+    },
+    {
+      "id": "09-room-detail",
+      "status": "generated-and-visually-reviewed",
+      "lightSource": "/Users/ytg/.codex/generated_images/01a1631a-6337-7b43-8540-8163a719c121/exec-938c03df-ccab-4e54-8e7d-afa9dda4dd80.png",
+      "darkSource": "/Users/ytg/.codex/generated_images/01a1631a-6337-7b43-8540-8163a719c121/exec-4de6906c-6d6f-45d0-9e65-832c7bf787d4.png",
+      "notes": "重连、消息确认、服务端计时、桌面及H5编辑锁均已呈现；无音视频",
+      "light": "pages/09-room-detail/light.png",
+      "dark": "pages/09-room-detail/dark.png",
+      "prompt": "pages/09-room-detail/prompts.json"
+    },
+    {
+      "id": "10-lab",
+      "status": "generated-and-visually-reviewed",
+      "lightSource": "/Users/ytg/.codex/generated_images/01a1631a-6337-7b43-8540-8163a719c121/exec-92fb6b84-57fb-4b42-9df6-72b6f7827601.png",
+      "darkSource": "/Users/ytg/.codex/generated_images/01a1631a-6337-7b43-8540-8163a719c121/exec-d93fe8c3-6a20-4139-ac1a-199f5e7a049a.png",
+      "notes": "桌面2D画布/参数/时间线，H5节点列表及参数；显著教学模拟标识",
+      "light": "pages/10-lab/light.png",
+      "dark": "pages/10-lab/dark.png",
+      "prompt": "pages/10-lab/prompts.json"
+    },
+    {
+      "id": "13-offline",
+      "status": "generated-and-visually-reviewed",
+      "lightSource": "/Users/ytg/.codex/generated_images/01a1631a-6337-7b43-8540-8163a719c121/exec-75eb35f7-843d-4d00-a06c-3e6d0ba193e9.png",
+      "darkSource": "/Users/ytg/.codex/generated_images/01a1631a-6337-7b43-8540-8163a719c121/exec-15f79bcd-d227-470b-ac3c-0d9435fe5aea.png",
+      "notes": "含版本题包、待同步/冲突/失败、登录过期重鉴权；公开题包与私人回答主动保存区别明确",
+      "light": "pages/13-offline/light.png",
+      "dark": "pages/13-offline/dark.png",
+      "prompt": "pages/13-offline/prompts.json"
+    },
+    {
+      "id": "14-coach",
+      "status": "generated-and-visually-reviewed",
+      "lightSource": "/Users/ytg/.codex/generated_images/01a1631a-6337-7b43-8540-8163a719c121/exec-0da036a0-9cf6-4bef-9d2f-c49c07ab6fd4.png",
+      "darkSource": "/Users/ytg/.codex/generated_images/01a1631a-6337-7b43-8540-8163a719c121/exec-1e9fb395-26b0-4c69-8301-671087766902.png",
+      "notes": "引用/工具摘要、计划前后差异、待确认写入、取消运行与确认按钮；H5计划tab与折叠详情",
+      "light": "pages/14-coach/light.png",
+      "dark": "pages/14-coach/dark.png",
+      "prompt": "pages/14-coach/prompts.json"
+    },
+    {
+      "id": "15-ops",
+      "status": "generated-and-visually-reviewed",
+      "lightSource": "/Users/ytg/.codex/generated_images/01a1631a-6337-7b43-8540-8163a719c121/exec-551e3592-cfb3-4f72-b71b-d0d8e38c4f57.png",
+      "darkSource": "/Users/ytg/.codex/generated_images/01a1631a-6337-7b43-8540-8163a719c121/exec-27f1cc26-702e-4883-bfd3-9f71e81419a0.png",
+      "notes": "失败任务只读追踪/日志、发布/恢复演练记录、受控操作审批入口；无直接恢复按钮",
+      "light": "pages/15-ops/light.png",
+      "dark": "pages/15-ops/dark.png",
+      "prompt": "pages/15-ops/prompts.json"
+    },
+    {
+      "id": "17-question-editor",
+      "status": "generated-and-visually-reviewed",
+      "lightSource": "/Users/ytg/.codex/generated_images/01a1631a-6337-7b43-8540-8163a719c121/exec-c7a47817-6d43-4227-afb5-55ddf84d77cb.png",
+      "darkSource": "/Users/ytg/.codex/generated_images/01a1631a-6337-7b43-8540-8163a719c121/exec-28a4bf53-53e0-4d30-aab1-8d0b87225525.png",
+      "notes": "题干编辑/预览、v2→v3差异及发布确认、历史练习引用原题版；桌面内容管理正确选中，H5编辑/预览和确认sheet",
+      "light": "pages/17-question-editor/light.png",
+      "dark": "pages/17-question-editor/dark.png",
+      "prompt": "pages/17-question-editor/prompts.json"
+    }
+  ]
+}

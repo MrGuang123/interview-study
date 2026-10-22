@@ -6,14 +6,16 @@
 
 五个应用已完成统一依赖安装，代码检查、类型检查和生产构建通过；四个 Nest 应用的默认单元测试与 E2E 通过。**浏览器交互、前后端业务调用、数据库及产品功能尚未实现或验证。** 完成详情见 [状态表](docs/status.md)。
 
-根 `package.json` 固定 pnpm 版本并标记私有 workspace；没有伪造的根 `dev`、`build` 或 `test` 命令。五个应用已具备自己的清单与脚本，包名为 `@interview-forge/<目录名>`；共享包仍只有职责文档，尚未成为可构建包。
+根 `package.json` 固定 pnpm 版本并标记私有 workspace；没有伪造的根 `dev`、`build` 或 `test` 命令。五个应用已具备自己的清单与脚本，包名为 `@interview-forge/<目录名>`；`design-tokens` 已建立平台中立令牌源，其余共享包仍为职责文档，均尚未成为可构建包。
+
+[UI-design](UI-design/README.md) 保存全站 17 类页面的浅色/深色图稿，每张同时展示桌面与 H5，另有关键异常状态板；[设计令牌](packages/design-tokens/src/tokens.json) 记录颜色、渐变、尺寸、排版与状态规范。图稿均为示例数据概念设计；CSS 生成、Tailwind 映射、Web 集成和完整交互验收仍待分步完成。
 
 ## 从哪里开始
 
 1. 阅读 [AGENTS.md](AGENTS.md)，了解本项目的协作规则与架构边界。
 2. 当前已安装并完成首次自动检查，按 [首次检查手册](docs/runbooks/initial-verification.md) 复核命令及手动启动；换电脑先看 [开发交接](docs/handoff.md) 和 [新电脑开发手册](docs/runbooks/new-machine-setup.md)，无需重新生成应用。
 3. 对照 [目录详解](docs/project-structure.md) 整理生成目录，保留每个应用的 README。
-4. 先完成首条链路的 [用户流程、UI 与主题设计](docs/ui-and-interaction.md)，再按 [阶段 2 清单](docs/stage-2-first-slice.md) 连通 Web → core-api → PostgreSQL；独立数据库验证可并行。其余目标服务按阶段启用。
+4. 参考已建立的 [全站图稿](UI-design/README.md) 与 [用户流程、UI 规范](docs/ui-and-interaction.md)，先完成主题映射和首条链路的可交互实现，再按 [阶段 2 清单](docs/stage-2-first-slice.md) 连通 Web → core-api → PostgreSQL；独立数据库验证可并行。其余目标服务按阶段启用。
 
 ## 换电脑或新会话继续
 
@@ -38,6 +40,7 @@ interview-study/
 ├── infra/                      Compose、Nginx、观测配置职责
 ├── scripts/                    环境检查、备份与恢复脚本职责
 ├── tests/                      跨应用流程、契约与压测职责
+├── UI-design/                  全站浅深色桌面/H5 图稿与关键状态规范
 ├── docs/                       蓝图、决定、指南和状态
 ├── package.json
 ├── pnpm-workspace.yaml

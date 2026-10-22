@@ -1,0 +1,294 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-22",
+  "artifactType": "static-ui-concept",
+  "implementationStatus": "not-implemented",
+  "generator": "built-in image_gen",
+  "boardFormat": "one page per theme; desktop plus H5 on a single board",
+  "tokens": "../packages/design-tokens/src/tokens.json",
+  "pages": [
+    {
+      "id": "01-login",
+      "title": "登录",
+      "route": "/login",
+      "stage": "首条链路",
+      "scope": "登录标识、密码、错误提示、重新登录并返回目标练习",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/01-login/light-v2.png",
+      "dark": "pages/01-login/dark.png",
+      "prompt": "pages/01-login/prompts.json"
+    },
+    {
+      "id": "02-dashboard",
+      "title": "学习工作台",
+      "route": "/app",
+      "stage": "后续阶段",
+      "scope": "今日复习、最近回答、工程任务、下一场面试；分区独立加载",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/02-dashboard/light.png",
+      "dark": "pages/02-dashboard/dark.png",
+      "prompt": "pages/02-dashboard/prompts.json"
+    },
+    {
+      "id": "03-questions",
+      "title": "题库",
+      "route": "/questions",
+      "stage": "首条链路",
+      "scope": "搜索、分类标签、分页、新练习与继续练习",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/03-questions/light-v2.png",
+      "dark": "pages/03-questions/dark.png",
+      "prompt": "pages/03-questions/prompts.json"
+    },
+    {
+      "id": "04-question-detail",
+      "title": "题目详情",
+      "route": "/questions/[slug]",
+      "stage": "后续阶段",
+      "scope": "题干、资料、知识关系、发布版本、自己的历史练习",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/04-question-detail/light.png",
+      "dark": "pages/04-question-detail/dark.png",
+      "prompt": "pages/04-question-detail/prompts.json"
+    },
+    {
+      "id": "05-my-practice",
+      "title": "我的练习",
+      "route": "/app/practice",
+      "stage": "首条链路",
+      "scope": "仅自己的练习、云端保存时间、草稿/提交状态、继续",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/05-my-practice/light.png",
+      "dark": "pages/05-my-practice/dark.png",
+      "prompt": "pages/05-my-practice/prompts.json"
+    },
+    {
+      "id": "06-practice-editor",
+      "title": "答题工作区",
+      "route": "/app/practice/[attemptId]",
+      "stage": "首条链路",
+      "scope": "题干、编辑、手动保存、快照状态、提纲与自测",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/06-practice-editor/light.png",
+      "dark": "pages/06-practice-editor/dark.png",
+      "prompt": "pages/06-practice-editor/prompts.json"
+    },
+    {
+      "id": "07-practice-review",
+      "title": "复盘与报告",
+      "route": "/app/practice/[attemptId]/review",
+      "stage": "后续阶段；路由建议",
+      "scope": "不可变提交、自评/互评、报告状态、复习安排",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/07-practice-review/light.png",
+      "dark": "pages/07-practice-review/dark.png",
+      "prompt": "pages/07-practice-review/prompts.json"
+    },
+    {
+      "id": "08-rooms",
+      "title": "模拟面试大厅",
+      "route": "/app/rooms",
+      "stage": "后续阶段",
+      "scope": "预约、邀请、场次角色、时间与题集",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/08-rooms/light.png",
+      "dark": "pages/08-rooms/dark.png",
+      "prompt": "pages/08-rooms/prompts.json"
+    },
+    {
+      "id": "09-room-detail",
+      "title": "模拟面试房间",
+      "route": "/app/rooms/[roomId]",
+      "stage": "后续阶段；详情路由建议",
+      "scope": "服务端计时、文字消息、共同题目、画布编辑锁、连接恢复",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/09-room-detail/light.png",
+      "dark": "pages/09-room-detail/dark.png",
+      "prompt": "pages/09-room-detail/prompts.json"
+    },
+    {
+      "id": "10-lab",
+      "title": "系统设计实验室",
+      "route": "/app/lab",
+      "stage": "后续阶段",
+      "scope": "2D/3D画布、节点与属性、实验参数、时间线、模拟假设",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/10-lab/light-v2.png",
+      "dark": "pages/10-lab/dark-v2.png",
+      "prompt": "pages/10-lab/prompts.json"
+    },
+    {
+      "id": "11-groups",
+      "title": "小组与共享计划",
+      "route": "/app/groups",
+      "stage": "后续阶段",
+      "scope": "小组切换、成员与角色、共享计划、互评任务、工程证据",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/11-groups/light.png",
+      "dark": "pages/11-groups/dark.png",
+      "prompt": "pages/11-groups/prompts.json"
+    },
+    {
+      "id": "12-portfolio",
+      "title": "项目档案",
+      "route": "/portfolio/[slug]",
+      "stage": "后续阶段",
+      "scope": "仅用户选定的公开成果、英文说明、版本证据、分享范围",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/12-portfolio/light.png",
+      "dark": "pages/12-portfolio/dark.png",
+      "prompt": "pages/12-portfolio/prompts.json"
+    },
+    {
+      "id": "13-offline",
+      "title": "离线与同步",
+      "route": "/app/offline",
+      "stage": "后续阶段",
+      "scope": "版本题包、下载、本地草稿、待同步与冲突处理",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/13-offline/light.png",
+      "dark": "pages/13-offline/dark.png",
+      "prompt": "pages/13-offline/prompts.json"
+    },
+    {
+      "id": "14-coach",
+      "title": "AI学习教练",
+      "route": "/app/coach",
+      "stage": "后续阶段",
+      "scope": "流式对话、引用、工具摘要、修改计划差异与确认、取消",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/14-coach/light.png",
+      "dark": "pages/14-coach/dark.png",
+      "prompt": "pages/14-coach/prompts.json"
+    },
+    {
+      "id": "15-ops",
+      "title": "管理与运行中心",
+      "route": "/ops",
+      "stage": "后续阶段",
+      "scope": "失败任务、追踪、发布和备份恢复演练记录；受控运维",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/15-ops/light.png",
+      "dark": "pages/15-ops/dark.png",
+      "prompt": "pages/15-ops/prompts.json"
+    },
+    {
+      "id": "16-settings",
+      "title": "账号与设备",
+      "route": "/app/settings",
+      "stage": "配套设计；路由建议",
+      "scope": "身份资料、独立设备会话、撤销设备、主题与减少动效偏好",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/16-settings/light.png",
+      "dark": "pages/16-settings/dark.png",
+      "prompt": "pages/16-settings/prompts.json"
+    },
+    {
+      "id": "17-question-editor",
+      "title": "题目编辑与发布",
+      "route": "/ops/questions/[questionId]/edit",
+      "stage": "配套设计；路由建议",
+      "scope": "内容编辑、预览、版本差异、草稿校验与发布确认",
+      "status": "static-design-complete",
+      "views": [
+        "desktop",
+        "h5"
+      ],
+      "light": "pages/17-question-editor/light.png",
+      "dark": "pages/17-question-editor/dark.png",
+      "prompt": "pages/17-question-editor/prompts.json"
+    }
+  ],
+  "states": [
+    {
+      "id": "auth-and-data",
+      "light": "states/auth-and-data-light.png",
+      "dark": "states/auth-and-data-dark.png",
+      "prompt": "states/prompts.json"
+    },
+    {
+      "id": "save-and-conflict",
+      "light": "states/save-and-conflict-light.png",
+      "dark": "states/save-and-conflict-dark.png",
+      "prompt": "states/prompts.json"
+    }
+  ],
+  "references": [
+    {
+      "theme": "light",
+      "image": "references/practice-editor-light.png",
+      "role": "user-approved original style direction"
+    },
+    {
+      "theme": "dark",
+      "image": "references/practice-editor-dark.png",
+      "role": "user-approved original style direction"
+    }
+  ],
+  "pageCount": 17,
+  "selectedImageCount": 40
+}
