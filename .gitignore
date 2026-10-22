@@ -1,0 +1,26 @@
+# Dependencies and generated output
+node_modules/
+.next/
+dist/
+build/
+out/
+.cache/
+.turbo/
+*.tsbuildinfo
+
+# Local credentials; commit only sanitized examples
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Verification output
+coverage/
+playwright-report/
+test-results/
+*.log
+
+# Temporary generators and local runtime data
+.scaffold/
+var/
+.DS_Store

@@ -1,0 +1,60 @@
+# 开发交接
+
+最后核对：2026-10-21。用于新会话或换电脑接手；详细实现状态以 [状态表](status.md) 为准，架构取舍以 [基础架构决定](decisions/0001-foundation-boundaries.md) 为准。这里保存接手摘要，不复制完整聊天或所有设计文档。
+
+## 项目与开发方式
+
+项目是“面试工坊 / Interview Forge”：通过真实的面试学习业务练习 React、TypeScript、Node.js 以及测试、部署、排障、多端同步和 AI。语雀只是同一账号多端连续使用的体验参照，项目不是通用文档应用。
+
+用户希望先搭建整体目录、明确每个应用的职责，再逐步实现。需要解释命令用途和预期结果，按可检查的小步骤推进；不要因目录已存在就认定相应业务已实现。
+
+根目录只维护一个官方识别的 `AGENTS.md`，不再创建 `agent.md`、`agend.md` 或应用级重复约定。
+
+## 当前接手点
+
+- 五个应用已迁入 `apps/`，统一安装依赖：`web`、`core-api`、`studio-service`、`report-worker`、`ai-service`。
+- 五个应用仍是默认 Next/Nest 脚手架。共享包、基础设施和维护脚本主要只有职责 README。
+- 上一台开发电脑已通过五个应用的 lint、类型检查和生产构建；四个 Nest 应用合计 4 个默认单元测试、4 个默认 E2E 通过。Web 尚无测试脚本，浏览器交互未验证。
+- 未实现登录、权限、数据库、跨服务通信、实际 AI、多端同步或业务功能。Docker、Nginx、CI、备份恢复和完整观测也未配置运行。
+- `.scaffold/` 是已完成迁移的临时生成目录，已忽略，不参与 workspace 或运行；不需要复制到另一台电脑。
+
+新电脑必须重新安装并执行相应检查，不能将以上记录直接报告为本机通过。操作步骤见 [新电脑开发手册](runbooks/new-machine-setup.md)，验证命令见 [首次检查手册](runbooks/initial-verification.md)。
+
+## 已确认、接手时容易误解的决定
+
+| 事项 | 当前决定 |
+| --- | --- |
+| 工程组织 | pnpm workspace；四个 Nest 应用分别采用 CLI standard-mode，不改成根 Nest CLI monorepo |
+| 启用顺序 | 先做 Web + core-api 的完整业务链路，其他服务按实际阶段启用 |
+| 技术覆盖 | 用户希望充分练习技术，但以有业务意义、可验证的功能承载，不为了数量同时启用所有依赖 |
+| 入口与聚合 | Nginx 为计划中的入口代理，core-api 承担需要的 GraphQL 查询聚合；独立网关/BFF 未决定 |
+| 通信 | REST 命令/认证/上传、GraphQL 组合读取、Socket.IO 实时消息、BullMQ 后台任务；gRPC 后期选真实内部链路，tRPC 可选 |
+| 数据归属 | 各服务拥有自己的数据，通过授权接口或事件协作，不共享 PrismaService 或跨服务直接操作表 |
+| AI | TypeScript + NestJS + Mastra，默认同进程；文档中的 `G0` 是原理练习阶段，不是 Go 语言 |
+| 同步 | 首版在线同步 + 本地草稿 + 冲突提示；完整离线和多人协同是分别演进的维度 |
+| 多端界面 | 平台中立设计令牌可共享；Web 的 DOM、shadcn、Workbox 不保证原样用于所有端 |
+
+详细服务所有权、演进代价和再评估条件见 [架构决定](decisions/0001-foundation-boundaries.md)。页面与业务范围见 [产品蓝图](product-blueprint.md)，技术对应的学习验收见 [学习矩阵](learning-matrix.md)。
+
+## 工具与已完成修正
+
+- 工具基线在根 `.node-version` 和 `package.json`，当前为 Node `24.19.0`、pnpm `11.22.0`。只维护根锁文件，换电脑使用 `pnpm install --frozen-lockfile`。
+- 首次生成脚手架可以使用 `@latest`；已有仓库直接复现锁文件，不重新生成，也不默认升级依赖。
+- Web 使用 Next、React、TypeScript、Tailwind；部分规划依赖尚未安装，以实际 `package.json` 为准。Web TypeScript 已调整为 `5.9.3`；类型检查前先执行 `next typegen`。
+- 四个 Nest 模板选择 ESM + Vitest，保留源码相对导入的 `.js` 后缀。已安装 Observe，测试环境关闭它；当前凭据仍为模板占位值，未关联云端监控，本地脚手架验证不要求开通账号。
+- Next 配置 `agentRules: false`，配合本项目仅保留根 `AGENTS.md` 的约定。
+- 根尚无 `dev`、`test` 等转发脚本。先读对应应用清单，再使用实际包名与已有命令。
+
+## 下一步与待定事项
+
+接手后先核对代码、当前分支和工作区改动，再按本次用户任务推进。当前推荐的开发顺序是：
+
+1. 手动启动 Web 与 core-api，确认默认页面与 HTTP 示例可访问。
+2. 准备 PostgreSQL/Prisma，选择一条题库或训练业务链路，连通页面、API 和数据持久化。
+3. 随业务逐步补权限、验证、测试和部署，再启用其他服务。
+
+App 的 React Native/Capacitor/Flutter 路线、小程序框架、桌面的 Electron/Tauri、独立网关/BFF，以及具体协同编辑方案都未最终选定。不要把候选方案当成已接受的实现要求。
+
+## 交接维护
+
+完成一个有意义的阶段或准备换电脑时，更新实际变化的状态、重要决定和下一步；详细验证留在对应运行手册。将源代码、文档和锁文件一同提交并推送后，另一台电脑才会收到这些上下文。凭据、本机 Codex 配置和会话记录不作为项目依赖提交。

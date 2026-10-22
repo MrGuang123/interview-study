@@ -1,0 +1,71 @@
+# core-api：身份、学习业务与查询聚合
+
+> 当前状态：依赖已安装，构建、lint、类型检查、1 个默认单测与 1 个 E2E 通过。采用独立 Nest CLI standard-mode 的 ESM + Vitest 配置；身份和学习业务尚未实现。
+
+## 当前脚手架与命令
+
+包名为 `@interview-forge/core-api`。先在仓库根统一安装；以下命令也从根执行，开发端口通过启动环境传入：
+
+```sh
+PORT=3001 pnpm --filter @interview-forge/core-api run start:dev
+pnpm --filter @interview-forge/core-api run build
+pnpm --filter @interview-forge/core-api run lint
+pnpm --filter @interview-forge/core-api run test
+pnpm --filter @interview-forge/core-api run test:e2e
+```
+
+当前只有默认示例接口和测试。Observe 已加入模块与启动钩子，凭据仍是占位值；云端关联、环境加载或停用方式在实际启用时处理，本轮没有连接监控账户。
+
+`NODE_ENV=test` 时关闭 Observe，保持测试独立于托管服务。E2E 只验证默认 `GET /` 返回 `Hello World!`；完整结果见 [首次检查](../../docs/runbooks/initial-verification.md)。
+
+## 职责
+
+- 管理统一用户身份、登录方式、独立设备会话、工作空间、成员与对象权限。
+- 管理题目及版本、学习计划、回答草稿、正式提交、评价、复习、预约与场次业务状态。
+- 对 core 所属内容执行版本检查、幂等写入和同步冲突判定。
+- 通过 REST 接收业务命令，通过 GraphQL 提供工作台等组合查询；必要时调用其他服务的授权接口。
+- 在同一数据库事务中保存核心业务变化与 Outbox，再可靠投递后续任务。
+
+## 边界
+
+- core-api 是核心业务服务，不是拥有全部服务数据的全局聚合根。它的查询聚合不授予跨服务写表权限。
+- Nginx 当前负责边缘入口；独立 API Gateway／BFF 仍是待评估项，不是已实现的服务。
+- 不拥有 studio 的消息、场景和协同状态，不拥有报告与 AI 运行数据；不得直接查询或修改这些服务的数据库。
+- `sync` 只协调本服务拥有的草稿等内容，不成为跨 PostgreSQL、MongoDB 和所有客户端的全局同步真相。
+- 不默认采用 CRDT 合并正式提交、预约、权限或其他业务状态。未来内容协同不替代后端规则。
+
+## 候选目录
+
+| 路径 | 内容 |
+| --- | --- |
+| `src/main.ts`、`app.module.ts` | 应用启动与模块装配 |
+| `src/config/`、`database/` | 本服务环境校验、Prisma Provider |
+| `src/modules/identity/`、`devices/` | 用户、登录身份、会话创建／轮换／撤销 |
+| `src/modules/workspaces/` | 成员、角色和对象权限上下文 |
+| `src/modules/questions/` | 题目、不可变发布版本和可见范围 |
+| `src/modules/practice/`、`submissions/` | 练习草稿、正式提交、状态和版本规则 |
+| `src/modules/plans/`、`reviews/`、`interviews/` | 学习计划、复习、预约与场次业务 |
+| `src/modules/sync/`、`outbox/` | core 内容同步协议、幂等、可靠事件发布 |
+| `src/modules/dashboard/`、`clients/` | GraphQL 聚合与其他服务客户端 |
+| `prisma/`、`test/integration/` | 自有模型与迁移、数据库集成验证 |
+
+候选模块按实际业务逐步建立，不要求每项都成为单独 Module。简单模块先采用 Controller／Resolver → Service → Prisma 的清晰路径。
+
+## 数据、协议与依赖
+
+- 拥有 PostgreSQL core database/schema、独立凭据与迁移。候选实体包括 User、ExternalIdentity、DeviceSession、Workspace、Membership、QuestionVersion、PracticeAttempt、Submission、ReviewTask、InterviewSession、OutboxEvent。
+- 同一用户可持有多台设备的独立会话。客户端提供的 userId、workspaceId、角色不能直接作为可信身份；对象访问由服务端检查。
+- 同步与写命令校验基础版本、幂等键及请求摘要。正式提交与草稿保存分开，不因报告失败回滚已成功的提交。
+- 跨服务调用带可信调用身份、超时和追踪上下文，并由资源所属服务再次授权。初期使用内部 HTTP；gRPC 只在选定链路实践，tRPC 不作为额外主干协议。
+- Outbox 事件包含稳定事件 ID、类型、版本、资源 ID 和追踪信息；允许重复交付，消费者负责业务去重。
+- 可依赖契约与受控 API 客户端；不导入其他应用的 `src`、Prisma Client、数据库连接或内部业务实体。
+
+## 启用顺序与最小验收
+
+1. 第一阶段与 Web 一起启用，完成登录、选题、回答、提交和复习闭环。
+2. 两个用户不能访问彼此私有内容；同一账号可在两个设备会话使用，并单独撤销一个会话。
+3. 同一操作重试不重复提交；基于旧版本保存明确返回冲突；非法输入有统一错误与关联日志。
+4. 先在模块边界内实现协作、报告与 AI 的早期能力；只有契约、数据归属和真实调用链明确后，才提取独立服务。
+5. 启用任务前验证“事务提交后中继退出、重复投递”的恢复行为；不以 Redis 永不丢数据作为唯一保证。
+
+完整范围见 [产品蓝图](../../docs/product-blueprint.md) 与 [目录指南](../../docs/project-structure.md)。
