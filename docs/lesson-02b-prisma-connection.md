@@ -2,6 +2,8 @@
 
 日期：2026-10-22。状态：**完整教学步骤已提供，等待用户手写、安装和执行验收**。本文已对照仓库现有配置与官方资料核对；没有替用户安装依赖、修改练习源码或连接数据库，不能将本文视为集成通过记录。
 
+2026-10-23 更正：根据用户执行输出及本机 Prisma 7.10.1 CLI 源码，客户端生成命令修正为 `prisma generate`；该版本默认允许无模型生成。
+
 本课的目标是亲手跑通：
 
 ```text
@@ -151,6 +153,23 @@ URL 格式是 `协议://账号:密码@主机:端口/数据库`。密码里的特
 
 ## 5. 手写 Prisma schema 与 CLI 配置
 
+`schema.prisma` 可以先由 `prisma init` 创建模板，也可以直接手写。对于本课连接已有 PostgreSQL 的方式，初始化需要的文件内容可以手动提供；没有必须依靠 init 才能完成的本地注册步骤。[Prisma 7 init 生成文件说明](https://www.prisma.io/docs/cli/v7/init#generated-files)
+
+下面对照 init 的主要文件职责，检查本课是否有遗漏：
+
+| init 的起始文件 | 本课对应步骤 |
+| --- | --- |
+| prisma/schema.prisma | 第 5.1 节手写数据库种类与生成器配置 |
+| CLI 配置文件 | 第 5.2 节手写 prisma.config.ts，并使用迁移连接 |
+| .env | 第 4 节分别配置应用与迁移环境文件，以及非敏感示例 |
+| .gitignore | 第 4.4 节复用根规则并补充生成目录 |
+
+只写 schema 文件确实不足以完成 Nest 接入，所以本课还提供了依赖、环境加载、适配器、Provider 和模块装配。`init` 提供的默认模板同样需要按本项目修改这些内容。
+
+2026-10-23 只读核对本机已安装的 7.10.1 源码：该版 init 将 CLI 配置模板命名为 `prisma7.config.ts`，加载器也兼容本文使用的 `prisma.config.ts`；两者同时存在时新名称优先。本课保持单份 `prisma.config.ts` 即可。init 还可能安装开发辅助的 Agent skills，这些不是 Nest 运行和客户端生成的必需配置。
+
+还要区分 `init` 与 `generate`：前者准备开发者维护的初始配置；后者读取 schema，生成程序使用的 Prisma Client。配置可以手写，客户端仍按第 6 节运行生成命令，不手写生成目录。
+
 ### 5.1 schema.prisma
 
 新建 `apps/core-api/prisma/schema.prisma`，完整内容：
@@ -177,7 +196,7 @@ datasource db {
 - 生成文件是 `.ts`，源码内相对导入写 `.js`，与当前 NodeNext 编译方式对齐。
 - 数据库连接 URL 写在 CLI 配置和运行时配置中。
 
-本课没有业务 model。客户端仍可用于原生查询，不必创建虚构的 User 或教学业务表。[生成选项](https://www.prisma.io/docs/orm/v7/prisma-schema/overview/generators)、[无模型生成参数](https://www.prisma.io/docs/orm/v7/reference/prisma-cli-reference#generate)
+本课没有业务 model。客户端仍可用于原生查询，不必创建虚构的 User 或教学业务表。[生成选项](https://www.prisma.io/docs/orm/v7/prisma-schema/overview/generators)、[生成命令与模型限制](https://www.prisma.io/docs/cli/v7/generate)
 
 ### 5.2 prisma.config.ts
 
@@ -227,7 +246,7 @@ export default defineConfig({
   "test:debug": "vitest --inspect-brk --no-file-parallelism",
   "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
   "db:validate": "prisma validate",
-  "db:generate": "prisma generate --allow-no-models"
+  "db:generate": "prisma generate"
 }
 ```
 
@@ -242,7 +261,7 @@ pnpm --filter @interview-forge/core-api run db:validate
 pnpm --filter @interview-forge/core-api run db:generate
 ```
 
-预期 schema 校验成功，并生成 `apps/core-api/src/generated/prisma/client.ts` 等文件。本课采用零模型生成；若工具提示 `--allow-no-models` 已默认启用或弃用，以实际提示为准。若明确报此参数不存在，先确认 `prisma --version` 为 7.x，再使用官方当前默认命令 `prisma generate` 更新脚本。
+预期 schema 校验成功，并生成 `apps/core-api/src/generated/prisma/client.ts` 等文件。Prisma 7.10.1 默认允许无模型生成；`--require-models` 才会要求至少存在一个模型。本课直接使用 `prisma generate`，不添加旧的无模型开关。
 
 生成不会创建业务表。每次修改 schema、重装后缺少生成物或换电脑，都应先生成再检查/构建。本课暂不添加自动生成钩子，以便清楚看见执行顺序。
 

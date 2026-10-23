@@ -4,5 +4,7 @@ packages:
 
 # Preserve the Next.js scaffold's disabled dependency build scripts.
 allowBuilds:
+  '@prisma/engines': true
+  prisma: true
   sharp: false
   unrs-resolver: false

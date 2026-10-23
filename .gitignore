@@ -24,3 +24,5 @@ test-results/
 .scaffold/
 var/
 .DS_Store
+
+/apps/core-api/src/generated/prisma/
