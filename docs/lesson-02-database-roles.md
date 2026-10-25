@@ -2,6 +2,8 @@
 
 日期：2026-10-22。状态：**教学内容已提供；角色、权限和验收等待用户执行**。上一课的 SQL 读写与容器重建后数据保留由用户执行并反馈通过；本轮没有替用户执行 SQL，也未安装 Prisma。
 
+2026-10-23 更正：容器内密码验收改用 Compose 服务名 `postgres`，并增加错误密码检查。旧版的容器内 `127.0.0.1` 连接可能命中 trust 规则，不能据此认定密码已被校验；本次仅修正文档，未连接数据库执行验收。
+
 本小节只做账号和 schema。下一小节再接 core-api、Prisma 和迁移。不要一次创建完整业务模块。
 
 ## 1. 为什么需要三个账号
@@ -21,7 +23,7 @@
 以下终端命令均在 `infra/compose/` 执行，SQL 在进入 psql 后执行：
 
 ```sh
-docker compose --env-file .env -f compose.dev.yaml exec postgres sh -c 'PGPASSWORD="$POSTGRES_PASSWORD" exec psql -h 127.0.0.1 -U "$POSTGRES_USER" -d "$POSTGRES_DB"'
+docker compose --env-file .env -f compose.dev.yaml exec postgres sh -c 'PGPASSWORD="$POSTGRES_PASSWORD" exec psql -h postgres -U "$POSTGRES_USER" -d "$POSTGRES_DB"'
 ```
 
 先执行：
@@ -98,10 +100,16 @@ GRANT USAGE ON SCHEMA core TO forge_app;
 先输入 `\q` 返回终端，再用应用账号登录：
 
 ```sh
-docker compose --env-file .env -f compose.dev.yaml exec postgres psql -h 127.0.0.1 -U forge_app -d interview_core -W
+docker compose --env-file .env -f compose.dev.yaml exec postgres psql -h postgres -U forge_app -d interview_core -W
 ```
 
-输入刚才为 forge_app 设置的密码。`-W` 要求交互输入密码，`-h 127.0.0.1` 让连接使用容器内的 TCP 密码认证；不要只用管理账号 SET ROLE 来代替密码登录验收。
+先故意输入一个与刚才设置值不同的错误密码，例如 `definitely_wrong_password_for_check`。预期连接失败并出现 `password authentication failed for user "forge_app"`，不能进入 psql。随后重新执行同一条命令，输入刚才为 forge_app 设置的正确密码，应成功进入。错误密码检查不修改角色或密码。
+
+`-W` 只强制出现密码提示，即使服务器不用这个密码也会提示，不能单凭提示与登录成功证明密码正确。[psql 参数说明](https://www.postgresql.org/docs/18/app-psql.html)
+
+官方 PostgreSQL 镜像默认可能允许同容器 localhost 通过 trust 连接；`initdb` 的本地规则先于镜像追加的通用 host 规则，认证使用第一条匹配规则。因此这里用 `postgres` 服务 DNS 连接容器的非 loopback 地址，并用错误/正确密码的不同结果验收。若错误密码也能登录，输入 `\q` 退出并检查认证规则，不记录密码验收通过。[官方镜像说明](https://hub.docker.com/_/postgres)、[initdb 默认认证](https://www.postgresql.org/docs/18/app-initdb.html)、[规则匹配顺序](https://www.postgresql.org/docs/18/auth-pg-hba-conf.html)
+
+Compose 内的 `postgres:5432` 使用容器网络；本机 Nest 后续使用 `127.0.0.1:5432` 的映射端口，两者位置不同，本课不能代替后者的实际连接验收。不要把服务名 `postgres` 写进本机应用 URL，也不要只用管理账号 SET ROLE 代替账号登录。[Compose 服务发现与端口](https://docs.docker.com/compose/how-tos/networking/)
 
 进入后执行：
 
@@ -128,10 +136,10 @@ CREATE TABLE core.permission_probe (id integer PRIMARY KEY);
 输入 `\q` 返回终端，用迁移账号登录：
 
 ```sh
-docker compose --env-file .env -f compose.dev.yaml exec postgres psql -h 127.0.0.1 -U forge_migrator -d interview_core -W
+docker compose --env-file .env -f compose.dev.yaml exec postgres psql -h postgres -U forge_migrator -d interview_core -W
 ```
 
-输入迁移账号的密码，再执行：
+与应用账号相同，先输入一个与实际设置值不同的错误密码，确认连接被拒绝；再重跑同一命令，输入迁移账号的正确密码。成功进入后执行：
 
 ```sql
 SELECT current_user, current_database();
@@ -149,6 +157,7 @@ CREATE TABLE 和 DROP TABLE 都应成功。此表只用于本节权限探针，�
 
 | 检查项 | 结果 |
 | --- | --- |
+| 两个账号均为错误密码被拒绝、正确密码成功 | 用户执行后反馈 |
 | forge_migrator 和 forge_app 都能分别用密码登录 | 用户执行后反馈 |
 | 应用账号 USAGE 为真、CREATE 为假 | 用户执行后反馈 |
 | 应用账号在 core 建表被拒绝 | 用户执行后反馈 |

@@ -1,8 +1,10 @@
 # 手写学习 02B：core-api 接入 Prisma 7
 
-日期：2026-10-22。状态：**完整教学步骤已提供，等待用户手写、安装和执行验收**。本文已对照仓库现有配置与官方资料核对；没有替用户安装依赖、修改练习源码或连接数据库，不能将本文视为集成通过记录。
+初稿：2026-10-22；导入写法更新：2026-10-25。状态：**core-api 已采用 CommonJS 输出与无扩展名相对导入；用户已开始手写 `src/database/`，完整 Nest 数据库接入与本机数据库验收仍待完成**。本文包含完整教学步骤，不应将尚未执行的步骤视为集成通过记录。
 
-2026-10-23 更正：根据用户执行输出及本机 Prisma 7.10.1 CLI 源码，客户端生成命令修正为 `prisma generate`；该版本默认允许无模型生成。
+换电脑先按 [新电脑开发手册](runbooks/new-machine-setup.md) 恢复工具、依赖、本地环境文件和 PostgreSQL 角色；不必重做已提交的依赖添加或覆盖现有配置。本课采用源码相对导入省略扩展名、编译输出 CommonJS 的方式，先完成第 5.1、5.3 节的生成器与模块配置，再按第 6 节校验/生成客户端、补齐 scripts，最后从第 7 节继续手写 Nest 接入。
+
+2026-10-23 更正：根据此前用户执行输出及旧电脑 Prisma 7.10.1 CLI 源码核对记录，客户端生成命令修正为 `prisma generate`；该版本默认允许无模型生成。这是历史核对记录，当前电脑仍须按实际生成与运行结果验收。
 
 本课的目标是亲手跑通：
 
@@ -22,17 +24,17 @@
 
 | 验收 | 预期 |
 | --- | --- |
-| 两个账号分别通过 TCP 和密码登录 | 都成功 |
+| 两个账号分别通过 TCP 和密码登录 | 错误密码被拒绝，正确密码成功 |
 | forge_app 使用 core schema | USAGE 为 true |
 | forge_app 在 core 建表 | CREATE 为 false，实际建表被拒绝 |
 | forge_migrator 创建、删除指定的 permission_probe | 都成功 |
 
-目前项目记录仍是等待执行/反馈，不能默认这些操作已经完成。若失败，先按 02A 排查；不要用管理账号替换应用账号。
+旧机账号与权限的完整验收尚无记录；新机数据库对象和密码也不会随 Git 恢复，因此本机须重新核对这些结果。若失败，先按 02A 排查；不要用管理账号替换应用账号。
 
 以下命令除特别说明外，**全部从仓库根目录执行**：
 
 ```sh
-cd /Users/ytg/Documents/study/interview-study
+cd /Users/ytg/Documents/main-study/interview-study
 ```
 
 检查工具与容器：
@@ -64,13 +66,16 @@ docker compose --env-file infra/compose/.env -f infra/compose/compose.dev.yaml u
 | dotenv | 按明确入口把本地环境文件加载到进程环境 |
 | prisma/schema.prisma | 声明数据库种类和客户端生成方式；下一课加入业务模型 |
 | prisma.config.ts | Prisma CLI 的 schema 路径和迁移连接 |
+| package.json / tsconfig.json | 声明 CommonJS 包，使用 NodeNext 按 Node 规则解析无扩展名导入 |
 | src/database/ | Nest 的数据库 Provider 与模块 |
 
 这里有两个不同的 schema 概念：`schema.prisma` 是 Prisma 配置文件；PostgreSQL 的 `core` 是数据库内的命名空间。
 
-当前 Nest 已是 ESM，TypeScript 使用 NodeNext，本课沿用这些配置。生成客户端放进 `src`，使它进入现有构建范围。[Prisma 7 生成器说明](https://www.prisma.io/docs/orm/v7/prisma-schema/overview/generators)
+core-api 当前采用 CommonJS 输出，源码仍使用 TypeScript 的 `import` / `export` 语法，相对路径统一省略扩展名，例如 `./app.service`。TypeScript 的 NodeNext 模式结合本应用 `package.json` 中的 `type: commonjs`，将这些源码编译为 CommonJS，由 Node 解析无扩展名的 `require` 路径。Prisma 生成客户端采用相同模块格式，并放进 `src` 参与构建。其他 Nest 应用继续保留各自配置。[TypeScript Node 模块模式](https://www.typescriptlang.org/docs/handbook/modules/reference.html#node16-node18-node20-nodenext)、[Prisma 7 生成器说明](https://www.prisma.io/docs/orm/v7/prisma-schema/overview/generators)
 
 ## 3. 安装依赖
+
+2026-10-23：这些依赖与根锁文件已提交。换电脑只在根执行 `pnpm install --frozen-lockfile`，跳过本节的 `add`；下列命令保留用于解释首次安装过程。
 
 在仓库根依次执行：
 
@@ -166,7 +171,7 @@ URL 格式是 `协议://账号:密码@主机:端口/数据库`。密码里的特
 
 只写 schema 文件确实不足以完成 Nest 接入，所以本课还提供了依赖、环境加载、适配器、Provider 和模块装配。`init` 提供的默认模板同样需要按本项目修改这些内容。
 
-2026-10-23 只读核对本机已安装的 7.10.1 源码：该版 init 将 CLI 配置模板命名为 `prisma7.config.ts`，加载器也兼容本文使用的 `prisma.config.ts`；两者同时存在时新名称优先。本课保持单份 `prisma.config.ts` 即可。init 还可能安装开发辅助的 Agent skills，这些不是 Nest 运行和客户端生成的必需配置。
+2026-10-23 的旧电脑源码核对记录：该版 init 将 CLI 配置模板命名为 `prisma7.config.ts`，加载器也兼容本文使用的 `prisma.config.ts`；两者同时存在时新名称优先。本课保持单份 `prisma.config.ts` 即可。init 还可能安装开发辅助的 Agent skills，这些不是 Nest 运行和客户端生成的必需配置。当前电脑未重新验证这项 CLI 行为。
 
 还要区分 `init` 与 `generate`：前者准备开发者维护的初始配置；后者读取 schema，生成程序使用的 Prisma Client。配置可以手写，客户端仍按第 6 节运行生成命令，不手写生成目录。
 
@@ -178,9 +183,9 @@ URL 格式是 `协议://账号:密码@主机:端口/数据库`。密码里的特
 generator client {
   provider               = "prisma-client"
   output                 = "../src/generated/prisma"
-  moduleFormat           = "esm"
+  moduleFormat           = "cjs"
   generatedFileExtension = "ts"
-  importFileExtension    = "js"
+  importFileExtension    = ""
 }
 
 datasource db {
@@ -192,8 +197,9 @@ datasource db {
 
 - `provider = "prisma-client"` 使用 Prisma 7 的 TypeScript 客户端生成器。
 - `output` 相对于本文件，所以结果位于 `apps/core-api/src/generated/prisma`。
-- `moduleFormat` 与当前 Nest 的 ESM 对齐。
-- 生成文件是 `.ts`，源码内相对导入写 `.js`，与当前 NodeNext 编译方式对齐。
+- `moduleFormat = "cjs"` 与当前 core-api 的 CommonJS 输出对齐。
+- `generatedFileExtension = "ts"` 决定生成文件的后缀，例如 `client.ts`。
+- `importFileExtension = ""` 让生成代码内部的相对导入省略扩展名，例如 `./internal/class`。
 - 数据库连接 URL 写在 CLI 配置和运行时配置中。
 
 本课没有业务 model。客户端仍可用于原生查询，不必创建虚构的 User 或教学业务表。[生成选项](https://www.prisma.io/docs/orm/v7/prisma-schema/overview/generators)、[生成命令与模型限制](https://www.prisma.io/docs/cli/v7/generate)
@@ -203,12 +209,12 @@ datasource db {
 新建 `apps/core-api/prisma.config.ts`，完整内容：
 
 ```ts
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
 import { config } from 'dotenv';
 import { defineConfig, env } from 'prisma/config';
 
 config({
-  path: fileURLToPath(new URL('./.env.migration', import.meta.url)),
+  path: resolve(__dirname, '.env.migration'),
 });
 
 export default defineConfig({
@@ -222,9 +228,76 @@ export default defineConfig({
 });
 ```
 
-`new URL(..., import.meta.url)` 将迁移环境文件定位到此配置旁边。`env()` 检查变量是否存在；它不会自动读取环境文件，所以前面显式调用 `config()`。本课不配置 shadow URL，也不运行迁移。[Prisma Config 说明](https://www.prisma.io/docs/orm/v7/reference/prisma-config-reference)
+CommonJS 中的 `__dirname` 表示当前配置所在目录，`resolve(__dirname, '.env.migration')` 将迁移环境文件定位到配置旁边。`env()` 检查变量是否存在；它不会自动读取环境文件，所以前面显式调用 `config()`。本课不配置 shadow URL，也不运行迁移。[Prisma Config 说明](https://www.prisma.io/docs/orm/v7/reference/prisma-config-reference)
 
 注意：`generate` 也会读取这个配置，所以执行生成之前就需要本地 `.env.migration`；读取变量不等于已连接或迁移数据库。
+
+### 5.3 配置无扩展名的相对导入
+
+先在 `apps/core-api/package.json` 中将顶层 `type` 改为下面的值；保留依赖和其他字段，第 6 节再提供完整 scripts：
+
+```json
+{
+  "type": "commonjs"
+}
+```
+
+打开 `apps/core-api/tsconfig.json`，完整内容如下；删除上一版教程添加的 `rewriteRelativeImportExtensions`。不需要升级依赖，也不需要增加打包器：
+
+```json
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolvePackageJsonExports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "types": ["vitest/globals", "node"]
+  }
+}
+```
+
+现有 `tsconfig.build.json` 继承这个文件，并将 `rootDir` 设为 `./src`，无需调整。`module: nodenext` 并不固定代表 ESM；编译器还会检查本应用的 `type` 字段，此处据此输出 CommonJS。保留现代 Node 的解析规则，无需切换到旧的 `moduleResolution: node10`。仅删掉源码的扩展名、却继续保留 `type: module`，不能得到本课的运行行为。[TypeScript Node 模块模式](https://www.typescriptlang.org/docs/handbook/modules/reference.html#node16-node18-node20-nodenext)
+
+源码、生成与构建的顺序为：
+
+1. `db:generate` 在 `src/generated/prisma/` 生成 `.ts` 文件，内部相对导入省略扩展名。
+2. 自己写的源码同样省略相对导入扩展名，例如 `import { PrismaClient } from '../generated/prisma/client'`。
+3. `build` 或 `start:dev` 的编译步骤将源码输出到 `dist/`，其中使用无扩展名的 `require` 加载模块。Node 按 CommonJS 规则找到对应的 `.js` 文件。
+
+不要手改生成目录；修改生成器配置后重新运行第 6 节的 `db:generate`。构建产物仍是 `.js` 文件，生产启动继续使用 `node dist/main.js`。CommonJS 文件不支持顶层 `await`，因此第 9 节入口使用 `void bootstrap()`；Prisma CLI 配置按第 5.2 节使用 `__dirname`，不再使用 `import.meta.url`。
+
+为保持 core-api 的写法一致，还需调整下列现有文件中的导入行，其余代码保持原样：
+
+`apps/core-api/src/app.controller.ts`：
+
+```ts
+import { AppService } from './app.service';
+```
+
+`apps/core-api/src/app.controller.spec.ts`：
+
+```ts
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+```
+
+`app.module.ts`、`main.ts`、数据库模块和 E2E 的完整代码在后文提供，其中的相对导入已统一省略扩展名。第三方包的路径按其导出契约使用，例如 `@nestjs/common`、`prisma/config`；E2E 的 `supertest/types` 仅用于类型导入。上述规则只针对本课 core-api，不要求修改其他应用。选择与边界见 [core-api 模块格式决定](decisions/0002-core-api-extensionless-imports.md)。
+
+Vitest 的工具配置仍使用 ESM 语法：将 `apps/core-api/vitest.config.ts` 重命名为 `vitest.config.mts`，将 `vitest.config.e2e.ts` 重命名为 `vitest.config.e2e.mts`，内容不变。`.mts` 明确这些配置文件的模块格式，避免 Vitest/Vite 对 CommonJS 包中 ESM 配置语法的提示；它不改变应用源码的无扩展名导入。下面的 E2E 脚本已指向新文件名。
 
 ## 6. 更新 core-api 的脚本并生成客户端
 
@@ -244,7 +317,7 @@ export default defineConfig({
   "test:watch": "vitest",
   "test:cov": "vitest run --coverage",
   "test:debug": "vitest --inspect-brk --no-file-parallelism",
-  "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
+  "test:e2e": "vitest run --config ./vitest.config.e2e.mts",
   "db:validate": "prisma validate",
   "db:generate": "prisma generate"
 }
@@ -263,7 +336,7 @@ pnpm --filter @interview-forge/core-api run db:generate
 
 预期 schema 校验成功，并生成 `apps/core-api/src/generated/prisma/client.ts` 等文件。Prisma 7.10.1 默认允许无模型生成；`--require-models` 才会要求至少存在一个模型。本课直接使用 `prisma generate`，不添加旧的无模型开关。
 
-生成不会创建业务表。每次修改 schema、重装后缺少生成物或换电脑，都应先生成再检查/构建。本课暂不添加自动生成钩子，以便清楚看见执行顺序。
+生成不会创建业务表。每次修改 schema、重装后缺少生成物或换电脑，都应先生成再检查/构建。尤其是改为 `moduleFormat = "cjs"`、`importFileExtension = ""` 后，需要重新生成，避免继续使用旧 ESM 客户端。`db:generate` 只产生源码，`dist/generated/prisma/client.js` 由第 11 节的构建命令产生。本课暂不添加自动生成钩子，以便清楚看见执行顺序。
 
 ## 7. 手写 PrismaService
 
@@ -273,7 +346,7 @@ pnpm --filter @interview-forge/core-api run db:generate
 import { Injectable } from '@nestjs/common';
 import type { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from '../generated/prisma/client.js';
+import { PrismaClient } from '../generated/prisma/client';
 
 function readApplicationDatabaseUrl(): string {
   const connectionString = process.env.DATABASE_URL;
@@ -348,7 +421,7 @@ export class PrismaService
 
 ```ts
 import { Module } from '@nestjs/common';
-import { PrismaService } from './prisma.service.js';
+import { PrismaService } from './prisma.service';
 
 @Module({
   providers: [PrismaService],
@@ -366,9 +439,9 @@ export class DatabaseModule {}
 ```ts
 import { Module } from '@nestjs/common';
 import { createObserveModule } from '@nestjs/observe';
-import { AppController } from './app.controller.js';
-import { AppService } from './app.service.js';
-import { DatabaseModule } from './database/database.module.js';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { DatabaseModule } from './database/database.module';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -398,8 +471,8 @@ export class AppModule {}
 import 'dotenv/config';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule, ObserveInstrument } from './app.module.js';
-import { PrismaService } from './database/prisma.service.js';
+import { AppModule, ObserveInstrument } from './app.module';
+import { PrismaService } from './database/prisma.service';
 
 type DatabaseCheck = {
   database_user: string;
@@ -446,7 +519,7 @@ async function bootstrap() {
   }
 }
 
-await bootstrap();
+void bootstrap();
 ```
 
 理解运行顺序：
@@ -473,9 +546,9 @@ await bootstrap();
 import { Test, TestingModule } from '@nestjs/testing';
 import type { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import type { App } from 'supertest/types.js';
-import { AppModule } from './../src/app.module.js';
-import { PrismaService } from './../src/database/prisma.service.js';
+import type { App } from 'supertest/types';
+import { AppModule } from './../src/app.module';
+import { PrismaService } from './../src/database/prisma.service';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
@@ -507,7 +580,7 @@ describe('AppController (e2e)', () => {
 
 这里替换的是整个 Provider，所以原构造函数和连接生命周期都不执行。默认路由不调用数据库方法，空替身足够。E2E 不执行 main.ts，因此也不会运行入口的真实查询。[Nest Provider 覆盖](https://docs.nestjs.com/fundamentals/testing#end-to-end-testing)
 
-现有 `src/app.controller.spec.ts` 无需修改。该单测和默认 E2E 都不能证明真实数据库连接正常；真实验收在第 12 步。后续业务数据库测试需要独立的隔离数据与真实数据库方案。
+现有 `src/app.controller.spec.ts` 的测试行为无需修改，只需按第 5.3 节统一相对导入的扩展名。该单测和默认 E2E 都不能证明真实数据库连接正常；真实验收在第 12 步。后续业务数据库测试需要独立的隔离数据与真实数据库方案。
 
 ## 11. 执行静态检查、现有测试和构建
 
@@ -523,7 +596,7 @@ pnpm --filter @interview-forge/core-api run build
 
 每条都应成功。本应用目前没有单独的类型检查脚本，所以使用已有 TypeScript CLI；不假设根存在 test/dev 转发脚本。
 
-预期默认单测 1 个、默认 E2E 1 个通过；构建产物包括 `apps/core-api/dist/main.js` 及生成客户端对应的 JS 文件。以实际输出为准，失败时不要将本课记录为通过。
+预期默认单测 1 个、默认 E2E 1 个通过；构建产物包括 `apps/core-api/dist/main.js` 及生成客户端对应的 JS 文件。打开 `apps/core-api/dist/database/prisma.service.js`，应看到 `require("../generated/prisma/client")`；源码中的无扩展名导入已编译为 CommonJS。以实际输出为准，失败时不要将本课记录为通过。
 
 ## 12. 验证本机 Nest 的真实运行连接
 
@@ -559,7 +632,7 @@ curl -i http://127.0.0.1:3001/
 pnpm --filter @interview-forge/core-api run start:prod
 ```
 
-再次确认 DatabaseCheck 四个字段与 HTTP 200。这个步骤验证编译后的 ESM 产物确实能加载生成客户端，不能仅凭开发启动成功跳过。
+再次确认 DatabaseCheck 四个字段与 HTTP 200。这个步骤验证编译后的 CommonJS 产物确实能加载生成客户端，不能仅凭开发启动成功跳过。
 
 完成后 Ctrl+C 停止。此处 prod 是运行构建产物的脚本名，环境仍是本机开发环境，不代表生产部署完成。
 
@@ -608,7 +681,7 @@ try {
 
 预期账号为 `forge_migrator`、数据库为 `interview_core`、`schema_create=true`。这条命令使用 pg 验证迁移凭据的实际连通性，**没有执行 Prisma 迁移**。CLI 是否读取正确配置由前面的 validate/generate 与配置检查验证；迁移行为留待 02C。
 
-外层单引号防止 shell 展开 SQL 参数 `$1`、`$2`；查询值通过参数数组传入。`finally` 保证成功或失败都释放客户端连接。[pg 参数化查询](https://node-postgres.com/features/queries)
+外层单引号防止 shell 展开 SQL 参数 `$1`、`$2`；查询值通过参数数组传入。`finally` 保证成功或失败都释放客户端连接。这里的 `--input-type=module` 只指定这条独立 Node 检查命令的执行方式，不改变 core-api 的 CommonJS 配置。[pg 参数化查询](https://node-postgres.com/features/queries)
 
 ## 14. 验证缺失配置会明确失败
 
@@ -639,7 +712,9 @@ pnpm --filter @interview-forge/core-api run start:prod
 | ECONNREFUSED | Docker 是否运行、PostgreSQL 是否 healthy、映射端口与 URL 是否相同 |
 | application role/schema check failed | 真实账号、库名和 core 的 USAGE/CREATE 是否与 02A 一致 |
 | 生成客户端找不到 | 是否先执行 db:generate，输出目录和导入路径是否一致 |
-| 编译或运行时找不到相对模块 | 是否使用 ESM、生成 `.ts` 配合 `.js` 导入，并运行最新构建 |
+| 提示 ESM 相对导入必须有扩展名 | core-api 的 `type` 是否已改为 `commonjs`；不要只删扩展名却保留 ESM 包声明 |
+| import.meta / 顶层 await 编译失败 | CLI 配置是否使用 `__dirname`，入口是否使用 `void bootstrap()` |
+| 编译或运行时找不到相对模块 | 源码相对导入是否省略后缀，生成器是否改为 `cjs` 和空导入后缀并重新生成；运行的是最新 `dist` 产物 |
 | TS6059 / rootDir | 生成输出是否位于 core-api 的 src 内；不要照抄其他布局的路径 |
 | 默认 E2E 意外要求本地数据库 | 是否在 compile 前覆盖 PrismaService，是否在模块顶层读取环境并抛错 |
 | EADDRINUSE | 3001 是否已有另一个 core-api；先停止旧进程 |
@@ -653,6 +728,9 @@ pnpm --filter @interview-forge/core-api run start:prod
 ```text
 .gitignore
 apps/core-api/package.json
+apps/core-api/tsconfig.json
+apps/core-api/vitest.config.mts
+apps/core-api/vitest.config.e2e.mts
 apps/core-api/.env.example
 apps/core-api/.env.migration.example
 apps/core-api/.env                     本机文件，忽略
@@ -661,6 +739,8 @@ apps/core-api/prisma.config.ts
 apps/core-api/prisma/schema.prisma
 apps/core-api/src/database/prisma.service.ts
 apps/core-api/src/database/database.module.ts
+apps/core-api/src/app.controller.ts
+apps/core-api/src/app.controller.spec.ts
 apps/core-api/src/app.module.ts
 apps/core-api/src/main.ts
 apps/core-api/test/app.e2e-spec.ts
@@ -680,15 +760,18 @@ git check-ignore apps/core-api/.env apps/core-api/.env.migration apps/core-api/s
 
 | 验收项 | 当前结果 |
 | --- | --- |
-| 02A 账号与权限验收 | 等待用户执行/反馈 |
-| Prisma 7 依赖与单一根锁文件 | 等待用户安装/检查 |
-| validate 与零模型客户端生成 | 等待用户执行 |
-| lint、类型、默认单测、默认 E2E、build | 等待用户执行 |
+| 02A 账号与权限验收 | 旧机完整结果待确认；新机重新执行 |
+| Prisma 7 依赖与单一根锁文件 | 已提交配置；安装和版本按第 3 节实际输出核对 |
+| validate 与零模型客户端生成 | 脚本与 schema 已提交；生成物被忽略，本机须重新执行 |
+| 无扩展名源码导入与 CommonJS 构建产物 | 教学示例已更新；按本课生成、检查和构建后验收 |
+| lint、类型、默认单测、默认 E2E、build | 本次模块格式调整已通过；完整数据库接入后按第 11 节重跑 |
 | 开发启动：forge_app / interview_core / true / false | 等待用户执行 |
 | 构建产物启动与 HTTP 200 | 等待用户执行 |
 | 迁移凭据本机连接：forge_migrator / interview_core / true | 等待用户执行 |
 | 缺失 DATABASE_URL 明确失败，正常启动可恢复 | 等待用户执行 |
 | 本地凭据与生成物被 Git 忽略 | 等待用户执行 |
+
+2026-10-25 导入约定更新：本课已从显式 `.ts` 导入改为无扩展名导入，core-api、Prisma 生成器与 CLI 配置同步采用 CommonJS。具体检查与运行结果见 [状态表](status.md)；默认 HTTP 示例和生成客户端的模块加载验证不代替真实数据库账号、权限及业务验收。
 
 写完后提供以上命令的成功/失败结果即可；如有报错，提供去除凭据后的错误文本。我再检查实际文件并按执行证据维护状态和交接。
 

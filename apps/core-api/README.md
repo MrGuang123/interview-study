@@ -1,6 +1,6 @@
 # core-api：身份、学习业务与查询聚合
 
-> 当前状态：依赖已安装，构建、lint、类型检查、1 个默认单测与 1 个 E2E 通过。采用独立 Nest CLI standard-mode 的 ESM + Vitest 配置；身份和学习业务尚未实现。
+> 当前状态：2026-10-25 本机通过 Prisma 校验/生成、lint、类型检查、构建、1 个默认单测、1 个 E2E，以及开发/构建产物的默认 HTTP 示例验证。采用独立 Nest CLI standard-mode 的 CommonJS 输出 + Vitest；PrismaService / DatabaseModule 已手写，尚未装配到应用入口，真实数据库和身份/学习业务未验收。
 
 ## 当前脚手架与命令
 
@@ -15,6 +15,14 @@ pnpm --filter @interview-forge/core-api run test:e2e
 ```
 
 当前只有默认示例接口和测试。Observe 已加入模块与启动钩子，凭据仍是占位值；云端关联、环境加载或停用方式在实际启用时处理，本轮没有连接监控账户。
+
+## 模块与导入约定
+
+源码使用 `import` / `export`，相对导入省略扩展名，例如 `import { AppService } from './app.service'`。本应用声明 `type: commonjs`，TypeScript 保留 `module` / `moduleResolution: nodenext` 并据此输出 CommonJS，Node 运行 `dist/main.js`。
+
+Prisma 生成器使用 `moduleFormat = "cjs"`、`generatedFileExtension = "ts"`、`importFileExtension = ""`；修改生成器或换电脑后，先运行 `pnpm --filter @interview-forge/core-api run db:generate` 再构建，不手改生成目录。CLI 配置用 `__dirname` 定位迁移环境文件，入口使用 `void bootstrap()`。
+
+Vitest 配置文件为 `vitest.config.mts`、`vitest.config.e2e.mts`，以 ESM 格式加载测试工具；这不改变应用的 CommonJS 输出。其他应用保留各自模块配置。原因与边界见 [模块格式决定](../../docs/decisions/0002-core-api-extensionless-imports.md)，完整手写代码见 [Prisma 教程](../../docs/lesson-02b-prisma-connection.md)。
 
 `NODE_ENV=test` 时关闭 Observe，保持测试独立于托管服务。E2E 只验证默认 `GET /` 返回 `Hello World!`；完整结果见 [首次检查](../../docs/runbooks/initial-verification.md)。
 

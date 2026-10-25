@@ -13,7 +13,8 @@
 | [阶段 2 实施清单](stage-2-first-slice.md) | 先设计 UI，再实现登录、题目、云端草稿链路的分步任务与验收 |
 | [手写学习 01：PostgreSQL](lesson-01-postgresql.md) | 用户手写的完整配置、逐段说明、SQL 与持久化验证步骤 |
 | [手写学习 02A：数据库账号](lesson-02-database-roles.md) | 管理/迁移/运行账号、schema 和真实登录/结构权限验证；尚待用户执行 |
-| [手写学习 02B：Prisma 连接](lesson-02b-prisma-connection.md) | Prisma 7、双连接配置、Nest ESM 接入、测试调整与真实连接验收；尚待用户手写执行 |
+| [手写学习 02B：Prisma 连接](lesson-02b-prisma-connection.md) | Prisma 7、双连接配置、CommonJS 无扩展名导入、Nest 接入与真实连接验收 |
+| [core-api 模块格式决定](decisions/0002-core-api-extensionless-imports.md) | core-api 采用 CommonJS、源码导入省略扩展名的原因与边界 |
 | [目录详解](project-structure.md) | 应用内部目标结构、框架约定与依赖方向 |
 | [基础架构决定](decisions/0001-foundation-boundaries.md) | 多端、同步、协议和服务边界的已确定/待定事项 |
 | [产品蓝图](product-blueprint.md) | 页面、业务流程、部署、可靠性与安全目标 |

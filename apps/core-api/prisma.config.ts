@@ -1,9 +1,9 @@
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
 import { config } from 'dotenv';
 import { defineConfig, env } from 'prisma/config';
 
 config({
-  path: fileURLToPath(new URL('./.env.migration', import.meta.url)),
+  path: resolve(__dirname, '.env.migration'),
 });
 
 export default defineConfig({

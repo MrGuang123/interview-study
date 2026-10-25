@@ -125,9 +125,9 @@ pnpm dlx @nestjs/cli@latest new ai-service --directory .scaffold/ai-service --pa
 
 交互提示中的 ESM/CommonJS、测试工具、lint 和观测 SDK 随 CLI 版本可能变化。先保留各应用适合的生成配置并验证启动，Mastra/Prisma 接入时再处理实际模块兼容，不强制全仓库使用同一份 `tsconfig`。观测工具按本项目方案接入，若本轮不采用脚手架提供的集成，在交互中明确跳过；当前 CLI 支持时可使用其对应关闭选项。
 
-本次实际生成的四个 Nest 模板均选择了 **ESM + Vitest，并加入 Observe**，可以保留，无需重新创建。配置包括 `type: module`、`module/moduleResolution: nodenext`、Vitest 与 Observe 接线；当前已安装 Nest 12.2.0，并通过默认构建和测试，产品业务仍待实现。
+最初生成的四个 Nest 模板均选择了 **ESM + Vitest，并加入 Observe**，无需重新创建。2026-10-25 用户要求无扩展名导入，core-api 已单独改为 CommonJS 输出，详见 [模块格式决定](decisions/0002-core-api-extensionless-imports.md)；其余三个 Nest 应用保持 ESM。当前已安装 Nest 12.2.0，产品业务仍待实现，验证结果见 [状态表](status.md)。
 
-- ESM 的相对导入保留脚手架生成的 `.js` 后缀，即使对应源码是 `.ts`；不要照旧教程改回 CommonJS。
+- core-api 的相对导入省略扩展名，并同步使用 CommonJS 包声明和 Prisma 生成器；其余 ESM 应用保留脚手架生成的 `.js` 相对导入。不要只修改导入字符串而忽略应用自己的编译与运行配置。
 - Vitest 是当前 Nest ESM 模板的默认测试工具，保留生成配置；遇到旧教程的 Jest mock API 时改用对应 Vitest API。[Nest CLI 说明](https://docs.nestjs.com/cli/overview)
 - Observe 是可选的托管监控集成。当前模板仍引用环境凭据或 `YOUR_APP_KEY` / `YOUR_APP_SECRET` 占位值，选 Yes 不等于已经完成云端关联。需要监控时再配置真实凭据及其加载方式，或明确停用集成；不要把占位配置当成有效认证，也不在安装时自动替用户关联账户。
 - 暂不同时增加第二套后端自动追踪 SDK；与后续 OpenTelemetry、Sentry 的范围统一评估。Observe 与 OpenTelemetry 当前并非同一条可互换的追踪管线。[Observe SDK](https://docs.nestjs.com/observability/sdk)、[与 OpenTelemetry 的取舍](https://docs.nestjs.com/observability/opentelemetry)
