@@ -1,6 +1,6 @@
 # core-api：身份、学习业务与查询聚合
 
-> 当前状态：2026-10-26 用户确认 02B 连接课完成，Prisma Provider、模块与入口查询已装配。代理本轮通过 lint、类型、构建和 1 个默认单测；默认 E2E 受代理监听权限限制，这些检查早于新模型，数据库未由代理重验。User 模型和首迁移已手写，首次 deploy 因漏逗号失败，[恢复待执行](../../docs/runbooks/2026-10-26-first-migration-p3018.md)。身份/学习业务链路尚未实现。
+> 当前状态：2026-10-27 用户确认 02C 完成，Prisma Provider、模块与入口查询、User 模型、首迁移及验收脚本已手写。代理只读核对到迁移逗号已修正，未逐项复验数据库；[P3018 记录](../../docs/runbooks/2026-10-26-first-migration-p3018.md) 保留历史故障处理。下一课 [03A：存活与数据库就绪检查](../../docs/lesson-03a-health-checks.md) 待用户手写，身份/学习业务链路尚未实现。
 
 ## 当前脚手架与命令
 
@@ -16,7 +16,7 @@ pnpm --filter @interview-forge/core-api run test:e2e
 
 当前只有默认示例接口和测试。Observe 已加入模块与启动钩子，凭据仍是占位值；云端关联、环境加载或停用方式在实际启用时处理，本轮没有连接监控账户。
 
-入口已加载应用 `.env`，使用 forge_app 查询账号、数据库和 core 的 USAGE/CREATE 后才监听，并启用关闭钩子释放连接。CLI 读取独立迁移环境。用户已加入 [02C](../../docs/lesson-02c-first-migration.md) 的模型、迁移相关脚本；首次迁移仍待恢复，尚未验收真实业务表读写。
+入口已加载应用 `.env`，使用 forge_app 查询账号、数据库和 core 的 USAGE/CREATE 后才监听，并启用关闭钩子释放连接。CLI 读取独立迁移环境。[02C](../../docs/lesson-02c-first-migration.md) 的模型、迁移和读写/回滚验收脚本已存在，课程按用户反馈完成，代理本轮未重验真实数据库。03A 将新增 `/health/live` 与 `/health/ready`，当前源码尚未提供这两个接口。
 
 ## 模块与导入约定
 

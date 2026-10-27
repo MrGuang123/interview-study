@@ -1,6 +1,6 @@
 # 开发交接
 
-最后核对：2026-10-26。用于新会话或换电脑接手；详细实现状态以 [状态表](status.md) 为准，架构取舍以 [基础架构决定](decisions/0001-foundation-boundaries.md) 为准。这里保存接手摘要，不复制完整聊天或所有设计文档。旧电脑的运行与验收记录不能作为当前电脑的结果。
+最后核对：2026-10-27。用于新会话或换电脑接手；详细实现状态以 [状态表](status.md) 为准，架构取舍以 [基础架构决定](decisions/0001-foundation-boundaries.md) 为准。这里保存接手摘要，不复制完整聊天或所有设计文档。旧电脑的运行与验收记录不能作为当前电脑的结果。
 
 ## 项目与开发方式
 
@@ -21,7 +21,7 @@
 ## 当前接手点
 
 - 五个应用已迁入 `apps/`：`web`、`core-api`、`studio-service`、`report-worker`、`ai-service`。当前电脑已有 core-api 依赖和生成客户端；其余应用本轮未复验。
-- 五个应用尚未完成业务链路；core-api 已装配数据库 Provider 和启动查询，User 模型及首迁移已手写，首次应用因 SQL 语法失败，恢复待执行。`design-tokens` 已有完整平台中立 JSON，但尚非可构建包；其余共享包和维护脚本主要只有职责 README。基础设施已增加 PostgreSQL 开发 Compose 配置。
+- 五个应用尚未完成业务链路；core-api 已装配数据库 Provider 和启动查询，User 模型、首迁移及读写验收脚本已手写，02C 按 2026-10-27 用户反馈记录完成。代理本轮核对到迁移逗号已修正，未连接数据库复验。`design-tokens` 已有完整平台中立 JSON，但尚非可构建包；其余共享包和维护脚本主要只有职责 README。基础设施已增加 PostgreSQL 开发 Compose 配置。
 - 2026-10-21 旧开发电脑已通过五个应用的 lint、类型检查和生产构建；四个 Nest 应用合计 4 个默认单元测试、4 个默认 E2E 通过。Web 尚无测试脚本，浏览器交互未验证；2026-10-22、2026-10-23 未重跑这些应用检查。
 - 用户已手写 PostgreSQL Compose、环境示例与本地配置。2026-10-22 代理在旧电脑只读核实 `desktop-linux` context 中的 `interview-forge-dev` 项目：`postgres` 服务使用 `postgres:18.6-alpine`，running/healthy，仅映射 `127.0.0.1:5432`，挂载一个命名卷。
 - 同日用户执行第一课 SQL 读写及容器 `down`/`up` 后数据保留验证，反馈“一切正常”；第一课按用户确认完成。代理未自动执行 SQL 或重建容器，未验证备份恢复。
@@ -30,7 +30,8 @@
 - 同日本机使用 Node `24.22.1`、pnpm `11.22.0`，通过 Prisma validate/generate、lint、类型检查、构建、1 个单测、1 个 E2E；开发和构建产物均返回默认 HTTP 200 / Hello World，CommonJS 可加载生成客户端与 PrismaService。验证关闭 Observe、未连接数据库，不能视为 02B 的真实数据库验收完成。
 - 用户描述旧电脑已进行到 Prisma 配置；仓库仍缺少 02A 角色、密码登录与权限的明确验收结果，不据此认定通过。当前电脑的 Docker 数据卷和角色也不能从 Git 恢复，需要单独核对或重建。
 - 2026-10-23 当前电脑只读检查：macOS arm64，Node 版本低于项目基线；Docker CLI / Compose 已有，`desktop-linux` daemon 暂不能连接。依赖、本地 Compose / core-api 环境文件与生成客户端均缺失；本轮未安装依赖、启动容器或执行应用/数据库验收。详细检查见 [状态表](status.md)，补齐顺序见 [新电脑开发手册](runbooks/new-machine-setup.md)。
-- User 模型与首迁移已手写；首次 deploy 的 P3018 根因为主键约束末尾漏逗号，文件有事务包裹。[恢复步骤](runbooks/2026-10-26-first-migration-p3018.md) 已提供，须用户修正并确认无残留后 resolve/retry，尚未记录恢复通过。登录、网站对象权限、跨服务通信、实际 AI、多端同步和业务链路仍未实现。
+- User 模型与首迁移已手写；首次 deploy 的 P3018 根因为主键约束末尾漏逗号，文件有事务包裹。[恢复记录](runbooks/2026-10-26-first-migration-p3018.md) 保留故障与处理方法。2026-10-27 用户确认 02C 已完成，代理核对到逗号已修正、验收脚本与命令已存在；未逐项重跑数据库验收，不补造 resolve/deploy 输出，也不再要求重复首迁移。
+- 下一课为 [03A：存活与数据库就绪检查](lesson-03a-health-checks.md)，完整手写代码、HTTP 测试与运行中停库/恢复验收已提供，health 模块尚未写入应用。后续依次细化请求标识/错误契约、运行时输入校验，再进入身份/设备会话。登录、网站对象权限、跨服务通信、实际 AI、多端同步和业务链路仍未实现。
 - `.scaffold/` 是已完成迁移的临时生成目录，已忽略，不参与 workspace 或运行；不需要复制到另一台电脑。
 
 新电脑必须重新安装并执行相应检查，不能将以上记录直接报告为本机通过。操作步骤见 [新电脑开发手册](runbooks/new-machine-setup.md)，验证命令见 [首次检查手册](runbooks/initial-verification.md)。
@@ -53,6 +54,8 @@
 
 ## 工具与已完成修正
 
+- 用户使用 Neovim，当前静态配置为 LazyVim 的 TypeScript extra / vtsls。编辑器报错需单独核对实际 LSP 与 TypeScript SDK，不能只凭项目 tsc 版本或其他编辑器的复现推断，也不提供其他编辑器的设置步骤。
+- 2026-10-27 已提供待用户手写的通用 vtsls 根目录规则：从最近项目目录向上寻找实际 TypeScript SDK，找到后以其目录为 LSP 工作区，遇 Git 边界停止；没有 SDK 时回退最近项目目录，保留 Deno 排除。独立临时 Neovim 会话实际启动两个 vtsls，core-api 选择 6.0.3、Web 选择 5.9.3，语义诊断无 TS1479；根目录统一安装 SDK 的场景也通过。用户全局配置尚未修改；不采用把 core-api 路径写入通用配置的前一版特例方案。
 - 工具基线在根 `.node-version` 和 `package.json`，当前为 Node `24.19.0`、pnpm `11.22.0`。只维护根锁文件，换电脑使用 `pnpm install --frozen-lockfile`。
 - 首次生成脚手架可以使用 `@latest`；已有仓库直接复现锁文件，不重新生成，也不默认升级依赖。
 - Web 使用 Next、React、TypeScript、Tailwind；部分规划依赖尚未安装，以实际 `package.json` 为准。Web TypeScript 已调整为 `5.9.3`；类型检查前先执行 `next typegen`。
@@ -65,7 +68,7 @@
 接手后先核对代码、当前分支和工作区改动，再按本次用户任务推进。当前推荐的开发顺序是：
 
 1. 02B 按用户完成反馈记录，模块装配与启动查询已在实际文件中。换电脑或环境缺失时按 [新电脑开发手册](runbooks/new-machine-setup.md) 恢复，已有库/角色先检查，不重复创建或删除数据卷；密码登录与数据库操作不得仅凭文件存在推断。
-2. 继续 [02C：首个模型与迁移](lesson-02c-first-migration.md)。用户已写模型和首迁移，先按 [本次 P3018 记录](runbooks/2026-10-26-first-migration-p3018.md) 修正逗号并核对数据库实际状态后重试，再完成重放与读写/回滚验收。继续保持 CommonJS 与无扩展名导入，使用现有 Prisma 7.10.1。
+2. 02C 按用户反馈完成，进入 [03A：存活与数据库就绪检查](lesson-03a-health-checks.md)。由用户手写 health 模块、AppModule 接入与 HTTP 测试，再亲手验证 API 运行中数据库停止时 live 200、ready 503，恢复数据库后不重启 API 即回到 ready 200。继续保持 CommonJS、无扩展名导入与现有 Prisma 7.10.1；本轮不代写练习源码或执行停库操作。
 3. 依据 [全站图稿](../UI-design/README.md)、[交互规范](../UI-design/interaction-spec.md) 和完整令牌源，按 [页面与主题指南](ui-theme-guide.md) 分步建立 Web 映射与首条链路组件。指南中的入门生成器只覆盖基础平面字段，完整渐变/阴影/布局映射尚未实现；旧示例临时编译不代表应用集成。后续分步接身份权限和页面联调；首次浏览器脚手架手动检查仍待执行。
 4. 随业务补测试和部署，再启用其他服务；全站静态图稿已有，业务实现仍分阶段推进。
 
