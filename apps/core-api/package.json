@@ -21,7 +21,12 @@
     "test:debug": "vitest --inspect-brk --no-file-parallelism",
     "test:e2e": "vitest run --config ./vitest.config.e2e.mts",
     "db:validate": "prisma validate",
-    "db:generate": "prisma generate"
+    "db:generate": "prisma generate",
+    "db:migrate:draft": "prisma migrate dev --create-only",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:migrate:status": "prisma migrate status",
+    "db:migrate:check": "prisma migrate diff --from-migrations prisma/migrations --to-config-datasource --exit-code",
+    "db:verify:user": "node scripts/verify-user-model.cjs"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",
