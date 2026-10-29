@@ -1,6 +1,6 @@
 # core-api：身份、学习业务与查询聚合
 
-> 当前状态：2026-10-27 用户确认 02C 完成，Prisma Provider、模块与入口查询、User 模型、首迁移及验收脚本已手写。代理只读核对到迁移逗号已修正，未逐项复验数据库；[P3018 记录](../../docs/runbooks/2026-10-26-first-migration-p3018.md) 保留历史故障处理。下一课 [03A：存活与数据库就绪检查](../../docs/lesson-03a-health-checks.md) 待用户手写，身份/学习业务链路尚未实现。
+> 当前状态：2026-10-28 用户确认 03A 完成，健康模块、AppModule 接入与 4 个健康 HTTP 测试已提交。Prisma Provider、User 模型、首迁移及读写验收脚本已存在；代理本轮未复验真实数据库停机/恢复。下一课 [03B：请求标识与错误响应](../../docs/lesson-03b-request-errors.md) 待用户手写，身份/学习业务链路尚未实现。
 
 ## 当前脚手架与命令
 
@@ -14,19 +14,19 @@ pnpm --filter @interview-forge/core-api run test
 pnpm --filter @interview-forge/core-api run test:e2e
 ```
 
-当前只有默认示例接口和测试。Observe 已加入模块与启动钩子，凭据仍是占位值；云端关联、环境加载或停用方式在实际启用时处理，本轮没有连接监控账户。
+当前提供默认示例与 `/health/live`、`/health/ready`，有 1 个默认单测和 5 个 HTTP E2E。Observe 已加入模块与启动钩子，凭据仍是占位值；云端关联、环境加载或停用方式在实际启用时处理，本轮没有连接监控账户。
 
-入口已加载应用 `.env`，使用 forge_app 查询账号、数据库和 core 的 USAGE/CREATE 后才监听，并启用关闭钩子释放连接。CLI 读取独立迁移环境。[02C](../../docs/lesson-02c-first-migration.md) 的模型、迁移和读写/回滚验收脚本已存在，课程按用户反馈完成，代理本轮未重验真实数据库。03A 将新增 `/health/live` 与 `/health/ready`，当前源码尚未提供这两个接口。
+入口已加载应用 `.env`，使用 forge_app 查询账号、数据库和 core 的 USAGE/CREATE 后才监听，并启用关闭钩子释放连接。CLI 读取独立迁移环境。[02C](../../docs/lesson-02c-first-migration.md) 的模型、迁移和读写/回滚验收脚本已存在，课程按用户反馈完成。03A 的 live 不查数据库，ready 查询 users；未就绪时返回 503 / `{"status":"not_ready"}`。03B 将增加请求 ID、完成日志和普通 HTTP 错误格式，当前尚未写入应用。
 
 ## 模块与导入约定
 
-源码使用 `import` / `export`，相对导入省略扩展名，例如 `import { AppService } from './app.service'`。本应用声明 `type: commonjs`，TypeScript 保留 `module` / `moduleResolution: nodenext` 并据此输出 CommonJS，Node 运行 `dist/main.js`。
+源码使用 `import` / `export`，相对导入省略扩展名，例如 `import { AppService } from './app.service'`。用户在 03A 中将应用改为不声明 package `type`、TypeScript 显式 `module: commonjs`，未声明 `moduleResolution`；当前 TypeScript 6.0.3 的有效默认解析为 Bundler，产物仍输出 CommonJS，由 Node 运行 `dist/main.js`。本轮沿用实际已提交配置，不要求恢复历史 NodeNext 方案，详见 [模块格式决定更新](../../docs/decisions/0002-core-api-extensionless-imports.md)。
 
 Prisma 生成器使用 `moduleFormat = "cjs"`、`generatedFileExtension = "ts"`、`importFileExtension = ""`；修改生成器或换电脑后，先运行 `pnpm --filter @interview-forge/core-api run db:generate` 再构建，不手改生成目录。CLI 配置用 `__dirname` 定位迁移环境文件，入口使用 `void bootstrap()`。
 
 Vitest 配置文件为 `vitest.config.mts`、`vitest.config.e2e.mts`，以 ESM 格式加载测试工具；这不改变应用的 CommonJS 输出。其他应用保留各自模块配置。原因与边界见 [模块格式决定](../../docs/decisions/0002-core-api-extensionless-imports.md)，完整手写代码见 [Prisma 教程](../../docs/lesson-02b-prisma-connection.md)。
 
-`NODE_ENV=test` 时关闭 Observe，保持测试独立于托管服务。E2E 只验证默认 `GET /` 返回 `Hello World!`；完整结果见 [首次检查](../../docs/runbooks/initial-verification.md)。
+`NODE_ENV=test` 时关闭 Observe，保持测试独立于托管服务。当前 E2E 使用 Prisma 替身，覆盖默认根路由和 4 个健康检查场景；真实数据库停止/恢复按 03A 用户完成反馈记录，不能由替身测试推断。历史默认脚手架结果见 [首次检查](../../docs/runbooks/initial-verification.md)。
 
 ## 职责
 

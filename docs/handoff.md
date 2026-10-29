@@ -1,6 +1,6 @@
 # 开发交接
 
-最后核对：2026-10-27。用于新会话或换电脑接手；详细实现状态以 [状态表](status.md) 为准，架构取舍以 [基础架构决定](decisions/0001-foundation-boundaries.md) 为准。这里保存接手摘要，不复制完整聊天或所有设计文档。旧电脑的运行与验收记录不能作为当前电脑的结果。
+最后核对：2026-10-28。用于新会话或换电脑接手；详细实现状态以 [状态表](status.md) 为准，架构取舍以 [基础架构决定](decisions/0001-foundation-boundaries.md) 为准。这里保存接手摘要，不复制完整聊天或所有设计文档。旧电脑的运行与验收记录不能作为当前电脑的结果。
 
 ## 项目与开发方式
 
@@ -21,17 +21,17 @@
 ## 当前接手点
 
 - 五个应用已迁入 `apps/`：`web`、`core-api`、`studio-service`、`report-worker`、`ai-service`。当前电脑已有 core-api 依赖和生成客户端；其余应用本轮未复验。
-- 五个应用尚未完成业务链路；core-api 已装配数据库 Provider 和启动查询，User 模型、首迁移及读写验收脚本已手写，02C 按 2026-10-27 用户反馈记录完成。代理本轮核对到迁移逗号已修正，未连接数据库复验。`design-tokens` 已有完整平台中立 JSON，但尚非可构建包；其余共享包和维护脚本主要只有职责 README。基础设施已增加 PostgreSQL 开发 Compose 配置。
+- 五个应用尚未完成业务链路；core-api 已装配数据库 Provider、启动查询与健康模块，User 模型、首迁移及读写验收脚本已手写。02C 按 2026-10-27 用户反馈完成，03A 按 2026-10-28 用户反馈完成；代理未复验真实数据库停机/恢复。`design-tokens` 已有完整平台中立 JSON，但尚非可构建包；其余共享包和维护脚本主要只有职责 README。基础设施已增加 PostgreSQL 开发 Compose 配置。
 - 2026-10-21 旧开发电脑已通过五个应用的 lint、类型检查和生产构建；四个 Nest 应用合计 4 个默认单元测试、4 个默认 E2E 通过。Web 尚无测试脚本，浏览器交互未验证；2026-10-22、2026-10-23 未重跑这些应用检查。
 - 用户已手写 PostgreSQL Compose、环境示例与本地配置。2026-10-22 代理在旧电脑只读核实 `desktop-linux` context 中的 `interview-forge-dev` 项目：`postgres` 服务使用 `postgres:18.6-alpine`，running/healthy，仅映射 `127.0.0.1:5432`，挂载一个命名卷。
 - 同日用户执行第一课 SQL 读写及容器 `down`/`up` 后数据保留验证，反馈“一切正常”；第一课按用户确认完成。代理未自动执行 SQL 或重建容器，未验证备份恢复。
 - Prisma 7 配置和运行 Provider 已建立，AppModule 已导入数据库模块，入口已加载应用配置并执行真实账号/权限查询，E2E 已覆盖数据库 Provider。2026-10-26 用户确认 02B 完成；本轮代理通过 lint、类型、默认单测和构建，E2E 受沙箱监听限制，数据库未由代理重验，见 [本轮记录](runbooks/2026-10-26-core-api-02b-check.md)。
-- 用户明确要求相对导入省略扩展名；2026-10-25 已将 core-api 改为 CommonJS 输出，Prisma 生成器同步为 `cjs` 与空导入后缀，Vitest 工具配置使用 `.mts`。其他三个 Nest 应用保持 ESM。原因与边界见 [模块格式决定](decisions/0002-core-api-extensionless-imports.md)。
+- 用户明确要求相对导入省略扩展名。core-api 保持 CommonJS 输出、Prisma `cjs` 与空导入后缀，Vitest 工具配置使用 `.mts`。03A 提交中用户进一步采用 `module: commonjs`，删除 package `type`、显式 moduleResolution 与 resolvePackageJsonExports；当前 TS 6.0.3 有效默认解析为 Bundler。历史 NodeNext 配置不再代表当前源码，本轮不改回。其他三个 Nest 应用保持各自 ESM 配置，见 [模块格式决定](decisions/0002-core-api-extensionless-imports.md)。
 - 同日本机使用 Node `24.22.1`、pnpm `11.22.0`，通过 Prisma validate/generate、lint、类型检查、构建、1 个单测、1 个 E2E；开发和构建产物均返回默认 HTTP 200 / Hello World，CommonJS 可加载生成客户端与 PrismaService。验证关闭 Observe、未连接数据库，不能视为 02B 的真实数据库验收完成。
 - 用户描述旧电脑已进行到 Prisma 配置；仓库仍缺少 02A 角色、密码登录与权限的明确验收结果，不据此认定通过。当前电脑的 Docker 数据卷和角色也不能从 Git 恢复，需要单独核对或重建。
 - 2026-10-23 当前电脑只读检查：macOS arm64，Node 版本低于项目基线；Docker CLI / Compose 已有，`desktop-linux` daemon 暂不能连接。依赖、本地 Compose / core-api 环境文件与生成客户端均缺失；本轮未安装依赖、启动容器或执行应用/数据库验收。详细检查见 [状态表](status.md)，补齐顺序见 [新电脑开发手册](runbooks/new-machine-setup.md)。
 - User 模型与首迁移已手写；首次 deploy 的 P3018 根因为主键约束末尾漏逗号，文件有事务包裹。[恢复记录](runbooks/2026-10-26-first-migration-p3018.md) 保留故障与处理方法。2026-10-27 用户确认 02C 已完成，代理核对到逗号已修正、验收脚本与命令已存在；未逐项重跑数据库验收，不补造 resolve/deploy 输出，也不再要求重复首迁移。
-- 下一课为 [03A：存活与数据库就绪检查](lesson-03a-health-checks.md)，完整手写代码、HTTP 测试与运行中停库/恢复验收已提供，health 模块尚未写入应用。后续依次细化请求标识/错误契约、运行时输入校验，再进入身份/设备会话。登录、网站对象权限、跨服务通信、实际 AI、多端同步和业务链路仍未实现。
+- 03A 已完成，当前提交 `a499bf7` 包含 health 模块、AppModule 接入与 4 个新 E2E，检查开始时 `master` 工作区干净。下一课为 [03B：请求标识、请求日志与统一错误响应](lesson-03b-request-errors.md)，含 5 个文件的完整手写内容、解释和验收。普通错误统一封套，保留既有健康 503 body；本轮临时副本通过 lint、类型、构建、1 个单测与 12 个 HTTP E2E，Prisma 为替身，仓库尚未实现 03B。后续进入 03C 输入校验，再进入身份/设备会话。
 - `.scaffold/` 是已完成迁移的临时生成目录，已忽略，不参与 workspace 或运行；不需要复制到另一台电脑。
 
 新电脑必须重新安装并执行相应检查，不能将以上记录直接报告为本机通过。操作步骤见 [新电脑开发手册](runbooks/new-machine-setup.md)，验证命令见 [首次检查手册](runbooks/initial-verification.md)。
@@ -59,7 +59,7 @@
 - 工具基线在根 `.node-version` 和 `package.json`，当前为 Node `24.19.0`、pnpm `11.22.0`。只维护根锁文件，换电脑使用 `pnpm install --frozen-lockfile`。
 - 首次生成脚手架可以使用 `@latest`；已有仓库直接复现锁文件，不重新生成，也不默认升级依赖。
 - Web 使用 Next、React、TypeScript、Tailwind；部分规划依赖尚未安装，以实际 `package.json` 为准。Web TypeScript 已调整为 `5.9.3`；类型检查前先执行 `next typegen`。
-- 四个 Nest 模板最初选择 ESM + Vitest；2026-10-25 core-api 单独改为 CommonJS 与无扩展名相对导入，其余三个保留 ESM 和 `.js` 相对导入。已安装 Observe，测试环境关闭它；当前凭据仍为模板占位值，未关联云端监控，本地脚手架验证不要求开通账号。
+- 四个 Nest 模板最初选择 ESM + Vitest；core-api 当前采用显式 `module: commonjs` 和无扩展名相对导入，其余三个保留 ESM 和 `.js` 相对导入。已安装 Observe，测试环境关闭它；当前凭据仍为模板占位值，未关联云端监控，本地脚手架验证不要求开通账号。
 - Next 配置 `agentRules: false`，配合本项目仅保留根 `AGENTS.md` 的约定。
 - 根尚无 `dev`、`test` 等转发脚本。先读对应应用清单，再使用实际包名与已有命令。
 
@@ -68,7 +68,7 @@
 接手后先核对代码、当前分支和工作区改动，再按本次用户任务推进。当前推荐的开发顺序是：
 
 1. 02B 按用户完成反馈记录，模块装配与启动查询已在实际文件中。换电脑或环境缺失时按 [新电脑开发手册](runbooks/new-machine-setup.md) 恢复，已有库/角色先检查，不重复创建或删除数据卷；密码登录与数据库操作不得仅凭文件存在推断。
-2. 02C 按用户反馈完成，进入 [03A：存活与数据库就绪检查](lesson-03a-health-checks.md)。由用户手写 health 模块、AppModule 接入与 HTTP 测试，再亲手验证 API 运行中数据库停止时 live 200、ready 503，恢复数据库后不重启 API 即回到 ready 200。继续保持 CommonJS、无扩展名导入与现有 Prisma 7.10.1；本轮不代写练习源码或执行停库操作。
+2. 03A 按用户反馈完成，进入 [03B：请求标识与错误响应](lesson-03b-request-errors.md)。由用户手写请求上下文、中间件、过滤器、AppModule 装配与 HTTP 测试；验证请求 ID 能关联响应和日志，错误与私人输入不泄露，03A 的 503 body 保持兼容。沿用当前已提交的 CommonJS 配置、无扩展名导入与现有依赖；本轮不代写练习源码或执行数据库操作。
 3. 依据 [全站图稿](../UI-design/README.md)、[交互规范](../UI-design/interaction-spec.md) 和完整令牌源，按 [页面与主题指南](ui-theme-guide.md) 分步建立 Web 映射与首条链路组件。指南中的入门生成器只覆盖基础平面字段，完整渐变/阴影/布局映射尚未实现；旧示例临时编译不代表应用集成。后续分步接身份权限和页面联调；首次浏览器脚手架手动检查仍待执行。
 4. 随业务补测试和部署，再启用其他服务；全站静态图稿已有，业务实现仍分阶段推进。
 
